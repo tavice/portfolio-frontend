@@ -1,16 +1,16 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { FaGithub,  FaGlobe } from "react-icons/fa";
 
 function Projects(props) {
   const [projects, setProjects] = useState(null);
 
-  const getProjectsData = async () => {
+  const getProjectsData = useCallback( async () => {
     const response = await fetch(props.URL + "projects");
     const data = await response.json();
     setProjects(data);
-  };
+  }, [props.URL]);
 
   useEffect(() => {
     getProjectsData();
