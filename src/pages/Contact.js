@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const ContactForm = styled.form`
   display: flex;
@@ -34,7 +34,7 @@ const ContactContainer = styled.div`
   color: #222;
 `;
 
-function Contact() {
+function Contact(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -45,7 +45,7 @@ function Contact() {
 
     const formData = { name, email, phone, message };
 
-    fetch('http://localhost:4000/api/contact', {
+    fetch(props.URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

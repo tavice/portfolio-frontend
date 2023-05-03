@@ -1,20 +1,20 @@
 import React from "react";
-import { useState, useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
-import Masonry from 'masonry-layout';
+import { useState, useEffect, useCallback } from "react";
+import styled from "styled-components";
+
 
 function About(props) {
   const [about, setAbout] = useState(null);
 
-  const getAboutData = async () => {
+  const getAboutData = useCallback( async () => {
     const response = await fetch(props.URL + "about");
     const data = await response.json();
     setAbout(data);
-  };
+  } , [props.URL]);
 
   useEffect(() => {
     getAboutData();
-  }, []);
+  }, );
 
   const AboutContainer = styled.div`
     display: flex;
