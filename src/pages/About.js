@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-
 
 function About(props) {
   const [about, setAbout] = useState(null);
@@ -14,7 +14,7 @@ function About(props) {
 
   useEffect(() => {
     getAboutData();
-  }, );
+  }, []);
 
   const AboutContainer = styled.div`
     display: flex;
@@ -33,11 +33,33 @@ function About(props) {
     font-size: 2rem;
   `;
 
+  const AboutP = styled.p`
+    font-size: 1.2rem;
+    line-height: 1.5;
+  `;
+
+  const AboutLink = styled(Link)`
+    background-color: #333;
+    color: #fff;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-top: 24px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #555;
+    }
+  `;
+
   const loaded = () => (
     <AboutContainer>
       <AboutH2>{about.name}</AboutH2>
       <h3>{about.email}</h3>
-      <p>{about.bio}</p>
+      <AboutP>{about.bio}</AboutP>
+      <AboutP>
+        Check out my <AboutLink to="/projects">projects!</AboutLink>
+      </AboutP>
     </AboutContainer>
   );
 

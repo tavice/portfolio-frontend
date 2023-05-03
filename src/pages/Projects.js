@@ -14,7 +14,7 @@ function Projects(props) {
 
   useEffect(() => {
     getProjectsData();
-  }, );
+  }, []);
 
   const ProjectsGrid = styled.div`
     display: grid;
