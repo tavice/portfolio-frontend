@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import styled from "styled-components";
-
-//Import logo-ta.png from src/styles/images
 import logo from "../styles/images/logo-ta.png";
 
 const HeaderWrapper = styled.header`
@@ -13,7 +11,12 @@ const HeaderWrapper = styled.header`
   height: 10vh;
   background-color: #333;
   color: #fff;
-  margin-bottom: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
 `;
 
 const Logo = styled.div`
@@ -70,9 +73,9 @@ function Header(props) {
         <LinkWrapper>
           <Link to="/about">About</Link>
         </LinkWrapper>
-        <LinkWrapper>
+        {/* <LinkWrapper>
           <Link to="/contact">Contact</Link>
-        </LinkWrapper>
+        </LinkWrapper> */}
       </Nav>
     </HeaderWrapper>
   );

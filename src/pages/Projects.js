@@ -7,9 +7,7 @@ const ProjectsGrid = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
   width: 80%;
-  margin: auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin: 15vh auto 15vh;
 `;
 
 const ProjectContainer = styled.div`
