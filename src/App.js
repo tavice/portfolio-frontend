@@ -6,7 +6,7 @@ import Footer from "./components/Footer.js";
 import { Route, Routes } from "react-router-dom";
 
 //Import pages
-import Contact from "./pages/Contact.js";
+//import Contact from "./pages/Contact.js";
 import About from "./pages/About.js";
 import Projects from "./pages/Projects";
 
@@ -21,7 +21,7 @@ function App() {
       <Header />
       <Routes>
         <Route exact path="/" element={<About URL={URL} />} />
-        <Route exact path="/contact" element={<Contact />} />
+        {/* <Route exact path="/contact" element={<Contact />} /> */}
         <Route exact path="/projects" element={<Projects URL={URL} />} />
         <Route exact path="/about" element={<About URL={URL} />} />
       </Routes>
