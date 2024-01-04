@@ -8,6 +8,12 @@ const ProjectsGrid = styled.div`
   gap: 30px;
   width: 80%;
   margin: 15vh auto 15vh;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
+    margin: 10vh auto 10vh;
+  }
 `;
 
 const ProjectContainer = styled.div`
@@ -73,7 +79,7 @@ const SocialLinkWebsite = styled.a`
 function Projects(props) {
   const [projects, setProjects] = useState(null);
 
-  const getProjectsData = useCallback( async () => {
+  const getProjectsData = useCallback(async () => {
     const response = await fetch(props.URL + "projects");
     const data = await response.json();
     setProjects(data);
@@ -94,7 +100,7 @@ function Projects(props) {
               <SocialLinkGit href={project.git} target="_blank" alt={project.git}>
                 <FaGithub />
               </SocialLinkGit>
-              <SocialLinkWebsite href={project.live} target="_blank" alt={project.live} >
+              <SocialLinkWebsite href={project.live} target="_blank" alt={project.live}>
                 <FaGlobe />
               </SocialLinkWebsite>
             </ProjectTitle>
