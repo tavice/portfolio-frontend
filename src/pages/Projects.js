@@ -21,13 +21,17 @@ const ProjectContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 8px;
+  margin: 10px;
   height: 100%;
   width: 100%;
   position: relative;
   overflow: hidden;
   border: 1px solid #333;
   border-radius: 5px;
+
+  @media (max-width: 768px) {
+    margin: 10px 0;
+  }
 `;
 
 const ProjectImage = styled.img`
@@ -49,7 +53,7 @@ const ProjectTitle = styled.h1`
   position: absolute;
   top: 0;
   color: white;
-  z-index: 1;
+  z-index: 0;
 `;
 
 const SocialLinkGit = styled.a`

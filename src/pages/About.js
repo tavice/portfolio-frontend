@@ -10,8 +10,8 @@ const AboutContainer = styled.div`
   justify-content: center;
   border: none;
   width: 90%;
-  
-  font-family: 'Roboto', sans-serif;
+
+  font-family: "Roboto", sans-serif;
   color: #222;
 `;
 
@@ -41,7 +41,7 @@ const AboutLink = styled(Link)`
 function About(props) {
   const [about, setAbout] = useState(null);
 
-  const getAboutData = useCallback( async () => {
+  const getAboutData = useCallback(async () => {
     const response = await fetch(props.URL + "about");
     const data = await response.json();
     setAbout(data);
