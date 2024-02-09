@@ -11,7 +11,7 @@ const FooterContainer = styled.div`
   padding: 20px;
   color: #fff;
   font-size: 1.2rem;
-  position: fixed;
+  margin-top: 40px;
   bottom: 0;
   left: 0;
   right: 0;
