@@ -21,14 +21,6 @@ const AboutContainer = styled(motion.div)`
   gap: ${theme.spacing.xl};
 `;
 
-const AboutP = styled(motion.p)`
-  font-size: ${theme.typography.body.fontSize};
-  line-height: ${theme.typography.body.lineHeight};
-  color: ${theme.colors.text.primary};
-  max-width: 800px;
-  text-align: center;
-`;
-
 const AboutLink = styled(motion(Link))`
   background: linear-gradient(45deg, ${theme.colors.primary}, ${theme.colors.secondary});
   color: ${theme.colors.background};
