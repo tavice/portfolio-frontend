@@ -14,7 +14,7 @@ import Projects from "./pages/Projects";
 
 function App() {
 
-  const URL = process.env.REACT_APP_RENDER_URL || "https://portfolio-backend-4trv.onrender.com/";
+  const URL = process.env.REACT_APP_RENDER_URL || "https://portfolio-backend-en4x.onrender.com/";
 
   return (
     <ThemeProvider theme={theme}>
