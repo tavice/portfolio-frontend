@@ -13,8 +13,8 @@ import About from "./pages/About.js";
 import Projects from "./pages/Projects";
 
 function App() {
-  // URL should have YOUR HEROKU URL for your backend, make sure you include the trailing slash
-  const URL = "https://portfolio-backend-tavice.herokuapp.com/";
+
+  const URL = process.env.REACT_APP_RENDER_URL || "https://portfolio-backend-4trv.onrender.com/";
 
   return (
     <ThemeProvider theme={theme}>
@@ -24,7 +24,7 @@ function App() {
         <main style={{ paddingTop: 'var(--header-height, 70px)' }}>
           <Routes>
             <Route exact path="/" element={<About URL={URL} />} />
-            {/* <Route exact path="/contact" element={<Contact />} /> */}
+            {/* <Route exact path="/contact" element={<Contact URL={URL} />} /> */}
             <Route exact path="/projects" element={<Projects URL={URL} />} />
             <Route exact path="/about" element={<About URL={URL} />} />
           </Routes>

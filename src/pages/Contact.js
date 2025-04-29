@@ -45,7 +45,7 @@ function Contact(props) {
 
     const formData = { name, email, phone, message };
 
-    fetch(props.URL, {
+    fetch(props.URL + "api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
