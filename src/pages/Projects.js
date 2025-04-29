@@ -1,117 +1,135 @@
-import React, { useState, useEffect, useCallback } from "react";
-import styled from "styled-components";
-import { motion } from "framer-motion";
-import { FaGithub, FaGlobe } from "react-icons/fa";
-import { theme } from "../styles/theme";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { FaGithub, FaGlobe } from 'react-icons/fa';
+import { getProjects } from '../services/api';
+
+const Container = styled(motion.div)`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  
+  @media (max-width: 768px) {
+    padding: 40px 20px;
+  }
+`;
+
+const Header = styled.div`
+  text-align: center;
+  margin-bottom: 60px;
+`;
+
+const Title = styled.h1`
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: ${({ theme }) => theme.colors.text.primary};
+`;
+
+const Subtitle = styled.p`
+  font-size: 1.25rem;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  max-width: 600px;
+  margin: 0 auto;
+`;
 
 const ProjectsGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: ${theme.spacing.xl};
-  width: 90%;
-  max-width: 1200px;
-  margin: 15vh auto;
-  padding: ${theme.spacing.xl};
-
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 32px;
+  
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    width: 95%;
-    margin: 10vh auto;
-    padding: ${theme.spacing.md};
   }
 `;
 
-const ProjectContainer = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+const ProjectCard = styled(motion.div)`
+  background: ${({ theme }) => theme.colors.surface};
+  border-radius: 16px;
   overflow: hidden;
-  border-radius: ${theme.borderRadius.lg};
-  background: ${theme.colors.background};
-  box-shadow: ${theme.shadows.md};
-  transition: transform ${theme.transitions.default}, box-shadow ${theme.transitions.default};
-
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+  
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: ${theme.shadows.lg};
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   }
 `;
 
-const ProjectImage = styled(motion.img)`
+const ProjectImage = styled.div`
   width: 100%;
   height: 200px;
-  object-fit: cover;
-  opacity: 0.8;
-  transition: all ${theme.transitions.default};
-
-  ${ProjectContainer}:hover & {
-    opacity: 1;
-    transform: scale(1.05);
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    
+    ${ProjectCard}:hover & {
+      transform: scale(1.05);
+    }
   }
 `;
 
-const ProjectContent = styled(motion.div)`
-  padding: ${theme.spacing.lg};
-  width: 100%;
+const ProjectContent = styled.div`
+  padding: 24px;
 `;
 
-const ProjectTitle = styled(motion.h2)`
-  font-size: ${theme.typography.h2.fontSize};
-  font-weight: ${theme.typography.h2.fontWeight};
-  color: ${theme.colors.text.primary};
-  margin-bottom: ${theme.spacing.md};
+const ProjectTitle = styled.h3`
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: ${({ theme }) => theme.colors.text.primary};
 `;
 
-const ProjectDescription = styled(motion.p)`
-  font-size: ${theme.typography.body.fontSize};
-  color: ${theme.colors.text.secondary};
-  margin-bottom: ${theme.spacing.md};
-  line-height: ${theme.typography.body.lineHeight};
+const ProjectDescription = styled.p`
+  font-size: 1rem;
+  line-height: 1.5;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  margin-bottom: 20px;
 `;
 
-const ProjectTech = styled(motion.div)`
+const TechStack = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: ${theme.spacing.xs};
-  margin-bottom: ${theme.spacing.md};
+  gap: 8px;
+  margin-bottom: 20px;
 `;
 
-const TechTag = styled(motion.span)`
-  background: ${theme.colors.surface};
-  color: ${theme.colors.text.primary};
-  padding: ${theme.spacing.xs} ${theme.spacing.sm};
-  border-radius: ${theme.borderRadius.full};
-  font-size: ${theme.typography.small.fontSize};
+const TechTag = styled.span`
+  padding: 6px 12px;
+  background: ${({ theme }) => theme.colors.background};
+  border-radius: 16px;
+  font-size: 0.85rem;
+  color: ${({ theme }) => theme.colors.text.secondary};
 `;
 
-const ProjectLinks = styled(motion.div)`
+const ProjectLinks = styled.div`
   display: flex;
-  gap: ${theme.spacing.md};
-  margin-top: ${theme.spacing.md};
+  gap: 16px;
 `;
 
 const ProjectLink = styled(motion.a)`
-  color: ${theme.colors.text.primary};
-  font-size: 1.5rem;
-  transition: all ${theme.transitions.default};
-  padding: ${theme.spacing.sm};
-  border-radius: ${theme.borderRadius.full};
-  background: ${theme.colors.surface};
-  box-shadow: ${theme.shadows.sm};
-
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: ${({ theme, primary }) => primary ? theme.colors.primary : 'transparent'};
+  color: ${({ theme, primary }) => primary ? '#fff' : theme.colors.primary};
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${theme.shadows.md};
+    background: ${({ theme, primary }) => primary ? theme.colors.primaryDark : theme.colors.background};
   }
-
-  &.github {
-    color: ${theme.colors.primary};
-  }
-
-  &.website {
-    color: ${theme.colors.secondary};
+  
+  svg {
+    font-size: 1rem;
   }
 `;
 
@@ -120,96 +138,127 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      duration: 0.6,
-      ease: "easeOut",
       staggerChildren: 0.1
     }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { y: 20, opacity: 0 },
   visible: {
-    opacity: 1,
     y: 0,
+    opacity: 1,
     transition: {
-      duration: 0.6,
-      ease: "easeOut"
+      duration: 0.5
     }
   }
 };
 
-function Projects({ URL }) {
+function Projects() {
   const [projects, setProjects] = useState(null);
-
-  const getProjectsData = useCallback(async () => {
-    try {
-      const response = await fetch(URL + "projects");
-      const data = await response.json();
-      setProjects(data);
-    } catch (error) {
-      console.error("Error fetching projects data:", error);
-    }
-  }, [URL]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getProjectsData();
-  }, [getProjectsData]);
+    const fetchProjects = async () => {
+      try {
+        const data = await getProjects();
+        setProjects(data);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+        setError('Failed to load projects. Please try again later.');
+      }
+    };
 
-  const loaded = () => {
+    fetchProjects();
+  }, []);
+
+  if (error) {
     return (
+      <Container>
+        <Header>
+          <Title>Projects</Title>
+          <Subtitle>{error}</Subtitle>
+        </Header>
+      </Container>
+    );
+  }
+
+  if (!projects) {
+    return (
+      <Container>
+        <Header>
+          <Title>Projects</Title>
+          <Subtitle>Loading projects...</Subtitle>
+        </Header>
+      </Container>
+    );
+  }
+
+  return (
+    <Container
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Header>
+        <Title>Projects</Title>
+        <Subtitle>Explore my latest work and personal projects</Subtitle>
+      </Header>
+      
       <ProjectsGrid
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {projects.map((project) => (
-          <ProjectContainer
+          <ProjectCard
             key={project.name}
             variants={itemVariants}
-            whileHover={{ y: -4 }}
+            whileHover={{ y: -8 }}
           >
-            <ProjectImage src={project.image} alt={project.name} />
+            <ProjectImage>
+              <img src={project.image} alt={project.name} />
+            </ProjectImage>
             <ProjectContent>
               <ProjectTitle>{project.name}</ProjectTitle>
               <ProjectDescription>{project.description}</ProjectDescription>
-              <ProjectTech>
+              <TechStack>
                 {project.tech.map((tech, index) => (
                   <TechTag key={index}>{tech}</TechTag>
                 ))}
-              </ProjectTech>
+              </TechStack>
               <ProjectLinks>
                 <ProjectLink
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="github"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
+                  primary
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
                   <FaGithub />
+                  GitHub
                 </ProjectLink>
                 {project.website && (
                   <ProjectLink
                     href={project.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="website"
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                   >
                     <FaGlobe />
+                    Website
                   </ProjectLink>
                 )}
               </ProjectLinks>
             </ProjectContent>
-          </ProjectContainer>
+          </ProjectCard>
         ))}
       </ProjectsGrid>
-    );
-  };
-
-  return projects ? loaded() : <h1>Loading...</h1>;
+    </Container>
+  );
 }
 
 export default Projects;

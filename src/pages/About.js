@@ -1,192 +1,196 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { FaGithub, FaLinkedin, FaEnvelopeOpen, FaCode } from 'react-icons/fa';
-import { theme } from '../styles/theme';
-import MainInfo from '../components/MainInfo';
-import { getAbout, getMainInfo } from '../services/api';
+import { FaGithub, FaLinkedin, FaEnvelope, FaCode } from 'react-icons/fa';
+import { getAbout } from '../services/api';
 
-const AboutContainer = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: ${theme.spacing.xl};
-  margin: 10vh auto;
-  width: 90%;
-  max-width: 1400px;
-  padding: ${theme.spacing.xl};
-
+const Container = styled(motion.div)`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: ${theme.spacing.lg};
-    padding: ${theme.spacing.md};
-    margin: 5vh auto;
+    padding: 40px 20px;
   }
 `;
 
-const MainInfoSection = styled(motion.div)`
-  grid-column: 1 / -1;
-  margin-bottom: ${theme.spacing.xl};
+const Header = styled.div`
+  text-align: center;
+  margin-bottom: 80px;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: ${({ theme }) => theme.colors.primary};
+    border-radius: 2px;
+  }
 `;
 
-const ContentGrid = styled(motion.div)`
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: ${theme.spacing.xl};
+const ProfileImage = styled.img`
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+  object-fit: cover;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 4px solid ${({ theme }) => theme.colors.background};
+`;
 
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
+const Name = styled.h1`
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: ${({ theme }) => theme.colors.text.primary};
+  letter-spacing: -0.5px;
+`;
+
+const Title = styled.h2`
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  margin-bottom: 32px;
+`;
+
+const ContactInfo = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 48px;
+  
+  a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: ${({ theme }) => theme.colors.text.secondary};
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: ${({ theme }) => theme.colors.surface};
+    
+    &:hover {
+      color: ${({ theme }) => theme.colors.primary};
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    svg {
+      font-size: 1.2rem;
+    }
   }
-
+  
   @media (max-width: 768px) {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
   }
 `;
 
-const ContentCard = styled(motion.div)`
-  background: ${theme.colors.surface};
-  padding: ${theme.spacing.xl};
-  border-radius: ${theme.borderRadius.lg};
-  box-shadow: ${theme.shadows.md};
-  transition: transform ${theme.transitions.default}, box-shadow ${theme.transitions.default};
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: ${theme.shadows.lg};
-  }
-
-  p {
-    color: ${theme.colors.text.secondary};
-    line-height: 1.6;
+const Section = styled.section`
+  margin-bottom: 80px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: ${({ theme }) => theme.colors.text.primary};
+    text-align: center;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 3px;
+      background: ${({ theme }) => theme.colors.primary};
+      border-radius: 2px;
+    }
   }
 `;
 
-const TechStackGrid = styled.div`
+const Statement = styled.p`
+  font-size: 1.25rem;
+  line-height: 1.6;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.text.secondary};
+  margin-bottom: 32px;
+`;
+
+const TechStack = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: ${theme.spacing.md};
-  margin-top: ${theme.spacing.md};
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 16px;
+  margin: 40px 0;
 `;
 
 const TechItem = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${theme.spacing.sm};
-  padding: ${theme.spacing.md};
-  background: ${theme.colors.background};
-  border-radius: ${theme.borderRadius.md};
-  box-shadow: ${theme.shadows.sm};
-
-  svg {
-    font-size: 2rem;
-    color: ${theme.colors.primary};
-  }
-
-  span {
-    font-size: 0.9rem;
-    text-align: center;
-    color: ${theme.colors.text.primary};
-  }
-`;
-
-const SocialSection = styled(motion.div)`
-  grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: ${theme.spacing.xl};
-  margin-top: ${theme.spacing.xl};
-`;
-
-const SocialMediaContainer = styled.div`
-  display: flex;
-  gap: ${theme.spacing.lg};
-`;
-
-const SocialLink = styled(motion.a)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: ${theme.colors.surface};
-  color: ${theme.colors.text.primary};
-  font-size: 1.5rem;
-  box-shadow: ${theme.shadows.md};
-  transition: all ${theme.transitions.default};
-
+  padding: 12px 20px;
+  background: ${({ theme }) => theme.colors.surface};
+  border-radius: 12px;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.colors.text.primary};
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  
   &:hover {
-    background: ${theme.colors.primary};
-    color: ${theme.colors.text.inverse};
-  }
-
-  &.github:hover {
-    background: #333;
-  }
-
-  &.linkedin:hover {
-    background: #0077b5;
-  }
-
-  &.email:hover {
-    background: #ea4335;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 `;
 
-const ProjectsLink = styled(motion(Link))`
-  padding: ${theme.spacing.md} ${theme.spacing.xl};
-  background: ${theme.colors.primary};
-  color: ${theme.colors.text.inverse};
-  border-radius: ${theme.borderRadius.md};
+const CTAContainer = styled.div`
+  text-align: center;
+  margin-top: 48px;
+`;
+
+const CTAButton = styled(motion.a)`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 32px;
+  background: ${({ theme }) => theme.colors.primary};
+  color: white;
+  border: none;
+  border-radius: 30px;
   text-decoration: none;
-  font-weight: 600;
-  box-shadow: ${theme.shadows.md};
-  transition: all ${theme.transitions.default};
-
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+  
   &:hover {
-    background: ${theme.colors.primaryDark};
-    box-shadow: ${theme.shadows.lg};
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 122, 255, 0.3);
+  }
+  
+  svg {
+    font-size: 1.2rem;
   }
 `;
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5
-    }
-  }
-};
 
 function About() {
   const [about, setAbout] = useState(null);
-  const [mainInfo, setMainInfo] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [aboutData, mainInfoData] = await Promise.all([
-          getAbout(),
-          getMainInfo()
-        ]);
-        setAbout(aboutData);
-        setMainInfo(mainInfoData);
+        const data = await getAbout();
+        setAbout(data);
         setError(null);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -197,118 +201,89 @@ function About() {
     fetchData();
   }, []);
 
-  const getTechIcon = (tech) => {
-    // Add your tech icon mapping logic here
-    return <FaCode />;
-  };
-
   if (error) {
     return (
-      <AboutContainer>
-        <ContentCard>
-          <h2>Error</h2>
-          <p>{error}</p>
-        </ContentCard>
-      </AboutContainer>
+      <Container>
+        <Statement>{error}</Statement>
+      </Container>
     );
   }
 
-  const loaded = () => (
-    <AboutContainer
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
+  if (!about) {
+    return (
+      <Container>
+        <Statement>Loading...</Statement>
+      </Container>
+    );
+  }
+
+  return (
+    <Container
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
     >
-      <MainInfoSection variants={itemVariants}>
-        <MainInfo mainInfo={mainInfo} />
-      </MainInfoSection>
+      <Header>
+        <ProfileImage src={about.mainInfo.headshot} alt={about.mainInfo.name} />
+        <Name>{about.mainInfo.name}</Name>
+        <Title>{about.mainInfo.title}</Title>
+        <ContactInfo>
+          <a href={`mailto:${about.mainInfo.email}`}>
+            <FaEnvelope /> {about.mainInfo.email}
+          </a>
+          <a href={about.contact.github} target="_blank" rel="noopener noreferrer">
+            <FaGithub /> GitHub
+          </a>
+          <a href={about.contact.linkedin} target="_blank" rel="noopener noreferrer">
+            <FaLinkedin /> LinkedIn
+          </a>
+        </ContactInfo>
+      </Header>
 
-      <ContentGrid>
-        <ContentCard variants={itemVariants}>
-          <TechStackGrid>
-            {about?.techstack?.map((tech, index) => (
-              <TechItem
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {getTechIcon(tech)}
-                <span>{tech}</span>
-              </TechItem>
-            )) || (
-              <TechItem>
-                <FaCode />
-                <span>Loading tech stack...</span>
-              </TechItem>
-            )}
-          </TechStackGrid>
-        </ContentCard>
+      <Section>
+        <Statement>{about.intro}</Statement>
+      </Section>
 
-        <ContentCard variants={itemVariants}>
-          <p>{about.expertise}</p>
-        </ContentCard>
+      <Section>
+        <h2>Tech Stack</h2>
+        <TechStack>
+          {about.techstack.map((tech, index) => (
+            <TechItem
+              key={index}
+              whileHover={{ y: -4 }}
+              transition={{ duration: 0.2 }}
+            >
+              {tech}
+            </TechItem>
+          ))}
+        </TechStack>
+      </Section>
 
-        <ContentCard variants={itemVariants}>
-          <p>{about.learner}</p>
-        </ContentCard>
+      <Section>
+        <h2>Expertise</h2>
+        <Statement>{about.expertise}</Statement>
+      </Section>
 
-        <ContentCard variants={itemVariants}>
-          <p>{about.github}</p>
-        </ContentCard>
+      <Section>
+        <h2>Always Learning</h2>
+        <Statement>{about.learner}</Statement>
+      </Section>
 
-        <ContentCard variants={itemVariants}>
-          <p>{about.connect}</p>
-        </ContentCard>
-
-        <ContentCard variants={itemVariants}>
-          <p>{about.calltoaction}</p>
-        </ContentCard>
-      </ContentGrid>
-
-      <SocialSection variants={itemVariants}>
-        <SocialMediaContainer>
-          <SocialLink
-            href="https://github.com/tavice"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="github"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+      <Section>
+        <h2>Let's Connect</h2>
+        <Statement>{about.connect}</Statement>
+        <CTAContainer>
+          <CTAButton
+            href={`mailto:${about.mainInfo.email}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <FaGithub />
-          </SocialLink>
-          <SocialLink
-            href="https://www.linkedin.com/in/thomasavice/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="linkedin"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <FaLinkedin />
-          </SocialLink>
-          <SocialLink
-            href="mailto:thomas.avice@gmail.com"
-            className="email"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <FaEnvelopeOpen />
-          </SocialLink>
-        </SocialMediaContainer>
-
-        <ProjectsLink
-          to="/projects"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          View My Projects
-        </ProjectsLink>
-      </SocialSection>
-    </AboutContainer>
+            <FaEnvelope /> Get in Touch
+          </CTAButton>
+        </CTAContainer>
+      </Section>
+    </Container>
   );
-
-  return about && mainInfo ? loaded() : <h1>Loading...</h1>;
 }
 
 export default About;
