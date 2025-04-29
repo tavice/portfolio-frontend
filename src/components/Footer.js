@@ -88,7 +88,7 @@ function Footer() {
       animate="visible"
     >
       <FooterText variants={itemVariants}>
-        My Portfolio by Thomas Avice © 2024
+       Thomas Avice © 2025
       </FooterText>
       <SocialIconsContainer variants={itemVariants}>
         <SocialLink

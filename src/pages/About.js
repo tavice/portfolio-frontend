@@ -1,159 +1,154 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { motion } from "framer-motion";
-import { FaGithub, FaLinkedin, FaEnvelopeOpen } from "react-icons/fa";
-import { theme } from "../styles/theme";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { FaGithub, FaLinkedin, FaEnvelopeOpen, FaCode } from 'react-icons/fa';
+import { theme } from '../styles/theme';
+import MainInfo from '../components/MainInfo';
+import { getAbout, getMainInfo } from '../services/api';
 
-//Import MainInfo component
-import MainInfo from "../components/MainInfo";
-
-//Basic styled components
 const AboutContainer = styled(motion.div)`
-  display: flex;
-  margin: 10vh auto auto;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 90%;
-  max-width: 1200px;
-  padding: ${theme.spacing.xl};
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
   gap: ${theme.spacing.xl};
+  margin: 10vh auto;
+  width: 90%;
+  max-width: 1400px;
+  padding: ${theme.spacing.xl};
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: ${theme.spacing.lg};
+    padding: ${theme.spacing.md};
+    margin: 5vh auto;
+  }
 `;
 
-const AboutLink = styled(motion(Link))`
-  background: linear-gradient(45deg, ${theme.colors.primary}, ${theme.colors.secondary});
-  color: ${theme.colors.background};
-  font-size: ${theme.typography.body.fontSize};
-  padding: ${theme.spacing.md} ${theme.spacing.xl};
-  text-decoration: none;
-  border-radius: ${theme.borderRadius.md};
-  margin-top: ${theme.spacing.xl};
-  transition: all ${theme.transitions.default};
+const MainInfoSection = styled(motion.div)`
+  grid-column: 1 / -1;
+  margin-bottom: ${theme.spacing.xl};
+`;
+
+const ContentGrid = styled(motion.div)`
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: ${theme.spacing.xl};
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ContentCard = styled(motion.div)`
+  background: ${theme.colors.surface};
+  padding: ${theme.spacing.xl};
+  border-radius: ${theme.borderRadius.lg};
   box-shadow: ${theme.shadows.md};
+  transition: transform ${theme.transitions.default}, box-shadow ${theme.transitions.default};
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: ${theme.shadows.lg};
   }
+
+  p {
+    color: ${theme.colors.text.secondary};
+    line-height: 1.6;
+  }
 `;
 
-// styled components for different sections
-
-
-const AboutTagline = styled(motion.h1)`
-  font-weight: ${theme.typography.h1.fontWeight};
-  text-align: center;
-  margin-bottom: ${theme.spacing.lg};
-  background: linear-gradient(45deg, ${theme.colors.primary}, ${theme.colors.secondary});
-  color: ${theme.colors.background};
-  padding: ${theme.spacing.md} ${theme.spacing.xl};
-  border-radius: ${theme.borderRadius.md};
-  box-shadow: ${theme.shadows.md};
+const TechStackGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: ${theme.spacing.md};
+  margin-top: ${theme.spacing.md};
 `;
 
-const AboutIntro = styled(motion.p)`
-  font-size: ${theme.typography.h3.fontSize};
-  margin-bottom: ${theme.spacing.lg};
-  color: ${theme.colors.text.primary};
-  text-align: center;
-  max-width: 800px;
-`;
-
-const AboutTechStack = styled(motion.div)`
-  font-size: ${theme.typography.body.fontSize};
-  margin-bottom: ${theme.spacing.lg};
-  border: 1px solid ${theme.colors.surface};
-  padding: ${theme.spacing.lg};
-  border-radius: ${theme.borderRadius.lg};
-  background: ${theme.colors.background};
-  box-shadow: ${theme.shadows.md};
-  width: 100%;
-  max-width: 800px;
-`;
-
-const AboutExpertise = styled(motion.div)`
-  font-size: ${theme.typography.body.fontSize};
-  margin-bottom: ${theme.spacing.lg};
-  padding: ${theme.spacing.lg};
-  border-radius: ${theme.borderRadius.lg};
-  background: ${theme.colors.surface};
-  box-shadow: ${theme.shadows.md};
-  width: 100%;
-  max-width: 800px;
-`;
-
-const AboutLearning = styled(motion.div)`
-  font-size: ${theme.typography.body.fontSize};
-  margin-bottom: ${theme.spacing.lg};
-  padding: ${theme.spacing.lg};
-  border-radius: ${theme.borderRadius.lg};
-  background: ${theme.colors.background};
-  box-shadow: ${theme.shadows.md};
-  width: 100%;
-  max-width: 800px;
-`;
-
-const AboutGithub = styled(motion.div)`
-  font-size: ${theme.typography.body.fontSize};
-  margin-bottom: ${theme.spacing.lg};
-  padding: ${theme.spacing.lg};
-  border-radius: ${theme.borderRadius.lg};
-  background: ${theme.colors.surface};
-  box-shadow: ${theme.shadows.md};
-  width: 100%;
-  max-width: 800px;
-`;
-
-//special container
-const GitHubContainer = styled(motion.div)`
+const TechItem = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin: ${theme.spacing.md};
-  padding: ${theme.spacing.lg};
-  height: 100%;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: ${theme.borderRadius.lg};
+  gap: ${theme.spacing.sm};
+  padding: ${theme.spacing.md};
   background: ${theme.colors.background};
-  box-shadow: ${theme.shadows.md};
-`;
-
-const SocialMediaContainer = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  gap: ${theme.spacing.md};
-  margin-top: ${theme.spacing.lg};
-`;
-
-//styled components for social media links
-const SocialLink = styled(motion.a)`
-  color: ${theme.colors.text.primary};
-  font-size: 1.5rem;
-  transition: all ${theme.transitions.default};
-  padding: ${theme.spacing.sm};
-  border-radius: ${theme.borderRadius.full};
-  background: ${theme.colors.surface};
+  border-radius: ${theme.borderRadius.md};
   box-shadow: ${theme.shadows.sm};
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${theme.shadows.md};
-  }
-
-  &.github {
+  svg {
+    font-size: 2rem;
     color: ${theme.colors.primary};
   }
 
-  &.linkedin {
-    color: ${theme.colors.secondary};
+  span {
+    font-size: 0.9rem;
+    text-align: center;
+    color: ${theme.colors.text.primary};
+  }
+`;
+
+const SocialSection = styled(motion.div)`
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${theme.spacing.xl};
+  margin-top: ${theme.spacing.xl};
+`;
+
+const SocialMediaContainer = styled.div`
+  display: flex;
+  gap: ${theme.spacing.lg};
+`;
+
+const SocialLink = styled(motion.a)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: ${theme.colors.surface};
+  color: ${theme.colors.text.primary};
+  font-size: 1.5rem;
+  box-shadow: ${theme.shadows.md};
+  transition: all ${theme.transitions.default};
+
+  &:hover {
+    background: ${theme.colors.primary};
+    color: ${theme.colors.text.inverse};
   }
 
-  &.email {
-    color: ${theme.colors.text.primary};
+  &.github:hover {
+    background: #333;
+  }
+
+  &.linkedin:hover {
+    background: #0077b5;
+  }
+
+  &.email:hover {
+    background: #ea4335;
+  }
+`;
+
+const ProjectsLink = styled(motion(Link))`
+  padding: ${theme.spacing.md} ${theme.spacing.xl};
+  background: ${theme.colors.primary};
+  color: ${theme.colors.text.inverse};
+  border-radius: ${theme.borderRadius.md};
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: ${theme.shadows.md};
+  transition: all ${theme.transitions.default};
+
+  &:hover {
+    background: ${theme.colors.primaryDark};
+    box-shadow: ${theme.shadows.lg};
   }
 `;
 
@@ -162,53 +157,61 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      duration: 0.6,
-      ease: "easeOut",
       staggerChildren: 0.1
     }
   }
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { y: 20, opacity: 0 },
   visible: {
-    opacity: 1,
     y: 0,
+    opacity: 1,
     transition: {
-      duration: 0.6,
-      ease: "easeOut"
+      duration: 0.5
     }
   }
 };
 
-function About({ URL }) {
+function About() {
   const [about, setAbout] = useState(null);
   const [mainInfo, setMainInfo] = useState(null);
-
-  const getAbout = useCallback(async () => {
-    try {
-      const response = await fetch(URL + "about");
-      const data = await response.json();
-      setAbout(data);
-    } catch (error) {
-      console.error("Error fetching about data:", error);
-    }
-  }, [URL]);
-
-  const getMainInfo = useCallback(async () => {
-    try {
-      const response = await fetch(URL + "about");
-      const data = await response.json();
-      setMainInfo(data);
-    } catch (error) {
-      console.error("Error fetching main info:", error);
-    }
-  }, [URL]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getAbout();
-    getMainInfo();
-  }, [getAbout, getMainInfo]);
+    const fetchData = async () => {
+      try {
+        const [aboutData, mainInfoData] = await Promise.all([
+          getAbout(),
+          getMainInfo()
+        ]);
+        setAbout(aboutData);
+        setMainInfo(mainInfoData);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError('Failed to load data. Please try again later.');
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const getTechIcon = (tech) => {
+    // Add your tech icon mapping logic here
+    return <FaCode />;
+  };
+
+  if (error) {
+    return (
+      <AboutContainer>
+        <ContentCard>
+          <h2>Error</h2>
+          <p>{error}</p>
+        </ContentCard>
+      </AboutContainer>
+    );
+  }
 
   const loaded = () => (
     <AboutContainer
@@ -216,26 +219,53 @@ function About({ URL }) {
       initial="hidden"
       animate="visible"
     >
-      <MainInfo mainInfo={mainInfo} />
-      <AboutTagline variants={itemVariants}>
-        {about.tagline}
-      </AboutTagline>
-      <AboutIntro variants={itemVariants}>
-        {about.intro}
-      </AboutIntro>
-      <AboutTechStack variants={itemVariants}>
-        <strong>Tech Stack:</strong> {about.techStack}
-      </AboutTechStack>
-      <AboutExpertise variants={itemVariants}>
-        <strong>Expertise:</strong> {about.expertise}
-      </AboutExpertise>
-      <AboutLearning variants={itemVariants}>
-        <strong>Currently Learning:</strong> {about.learning}
-      </AboutLearning>
-      <AboutGithub variants={itemVariants}>
-        <strong>GitHub:</strong> {about.github}
-      </AboutGithub>
-      <GitHubContainer variants={itemVariants}>
+      <MainInfoSection variants={itemVariants}>
+        <MainInfo mainInfo={mainInfo} />
+      </MainInfoSection>
+
+      <ContentGrid>
+        <ContentCard variants={itemVariants}>
+          <TechStackGrid>
+            {about?.techstack?.map((tech, index) => (
+              <TechItem
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {getTechIcon(tech)}
+                <span>{tech}</span>
+              </TechItem>
+            )) || (
+              <TechItem>
+                <FaCode />
+                <span>Loading tech stack...</span>
+              </TechItem>
+            )}
+          </TechStackGrid>
+        </ContentCard>
+
+        <ContentCard variants={itemVariants}>
+          <p>{about.expertise}</p>
+        </ContentCard>
+
+        <ContentCard variants={itemVariants}>
+          <p>{about.learner}</p>
+        </ContentCard>
+
+        <ContentCard variants={itemVariants}>
+          <p>{about.github}</p>
+        </ContentCard>
+
+        <ContentCard variants={itemVariants}>
+          <p>{about.connect}</p>
+        </ContentCard>
+
+        <ContentCard variants={itemVariants}>
+          <p>{about.calltoaction}</p>
+        </ContentCard>
+      </ContentGrid>
+
+      <SocialSection variants={itemVariants}>
         <SocialMediaContainer>
           <SocialLink
             href="https://github.com/tavice"
@@ -266,14 +296,15 @@ function About({ URL }) {
             <FaEnvelopeOpen />
           </SocialLink>
         </SocialMediaContainer>
-      </GitHubContainer>
-      <AboutLink
-        to="/projects"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        View My Projects
-      </AboutLink>
+
+        <ProjectsLink
+          to="/projects"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          View My Projects
+        </ProjectsLink>
+      </SocialSection>
     </AboutContainer>
   );
 

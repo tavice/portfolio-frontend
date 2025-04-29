@@ -2,13 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { theme } from "../styles/theme";
+import { FaMapMarkerAlt, FaEnvelope, FaPhone } from "react-icons/fa";
 
 // Define styled components
 const MainInfoContainer = styled(motion.div)`
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: ${theme.spacing.xl};
-  align-items: center;
+  align-items: start;
   margin: ${theme.spacing.xxl} 0;
   padding: ${theme.spacing.xl};
   background: ${theme.colors.surface};
@@ -29,6 +30,12 @@ const MainInfoContainer = styled(motion.div)`
   }
 `;
 
+const InfoColumn = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.lg};
+`;
+
 const MainInfoImage = styled(motion.img)`
   width: 200px;
   height: 200px;
@@ -36,6 +43,7 @@ const MainInfoImage = styled(motion.img)`
   object-fit: cover;
   box-shadow: ${theme.shadows.md};
   border: 4px solid ${theme.colors.background};
+  margin-bottom: ${theme.spacing.md};
 
   @media (max-width: 768px) {
     width: 150px;
@@ -59,6 +67,11 @@ const MainInfoListItem = styled(motion.li)`
   gap: ${theme.spacing.sm};
   color: ${theme.colors.text.secondary};
   font-size: ${theme.typography.body.fontSize};
+
+  svg {
+    color: ${theme.colors.primary};
+    font-size: 1.2em;
+  }
 
   strong {
     color: ${theme.colors.text.primary};
@@ -93,6 +106,19 @@ const MainInfoListItemTitle = styled(motion.h2)`
   margin: 0;
 `;
 
+const StatementSection = styled(motion.div)`
+  background: ${theme.colors.background};
+  padding: ${theme.spacing.xl};
+  border-radius: ${theme.borderRadius.lg};
+  box-shadow: ${theme.shadows.sm};
+
+  p {
+    color: ${theme.colors.text.secondary};
+    line-height: 1.6;
+    font-size: ${theme.typography.body.fontSize};
+  }
+`;
+
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -125,29 +151,41 @@ function MainInfo({ mainInfo }) {
       initial="hidden"
       animate="visible"
     >
-      <MainInfoImage
-        src={mainInfo.headshot}
-        alt="Headshot"
-        whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.3 }}
-      />
-      <MainInfoList>
-        <MainInfoListItemName variants={itemVariants}>
-          {mainInfo.name}
-        </MainInfoListItemName>
-        <MainInfoListItemTitle variants={itemVariants}>
-          {mainInfo.title}
-        </MainInfoListItemTitle>
-        <MainInfoListItem variants={itemVariants}>
-          <strong>Location:</strong> {mainInfo.location}
-        </MainInfoListItem>
-        <MainInfoListItem variants={itemVariants}>
-          <strong>Email:</strong> <a href={`mailto:${mainInfo.email}`}>{mainInfo.email}</a>
-        </MainInfoListItem>
-        <MainInfoListItem variants={itemVariants}>
-          <strong>Phone:</strong> {mainInfo.phone}
-        </MainInfoListItem>
-      </MainInfoList>
+      <InfoColumn>
+        <MainInfoImage
+          src={mainInfo.headshot}
+          alt="Headshot"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.3 }}
+        />
+        <MainInfoList>
+          <MainInfoListItemName variants={itemVariants}>
+            {mainInfo.name}
+          </MainInfoListItemName>
+          <MainInfoListItemTitle variants={itemVariants}>
+            {mainInfo.title}
+          </MainInfoListItemTitle>
+          <MainInfoListItem variants={itemVariants}>
+            <FaMapMarkerAlt />
+            <strong>Location:</strong> {mainInfo.location}
+          </MainInfoListItem>
+          <MainInfoListItem variants={itemVariants}>
+            <FaEnvelope />
+            <strong>Email:</strong> <a href={`mailto:${mainInfo.email}`}>{mainInfo.email}</a>
+          </MainInfoListItem>
+          <MainInfoListItem variants={itemVariants}>
+            <FaPhone />
+            <strong>Phone:</strong> {mainInfo.phone}
+          </MainInfoListItem>
+        </MainInfoList>
+      </InfoColumn>
+      <StatementSection variants={itemVariants}>
+        <p>
+          Hey there, I am Thomas Avice (tavice!), a software engineer with a burning passion for revolutionizing 
+          the cleantech, contech, and proptech industries. I have a proven track record of crafting cutting-edge 
+          software solutions and am dedicated to driving innovation in these rapidly-evolving fields.
+        </p>
+      </StatementSection>
     </MainInfoContainer>
   );
 }
