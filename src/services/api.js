@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:10000';
+const API_URL = process.env.REACT_APP_RENDER_URL || 'http://localhost:10000';
 
 // Helper function to handle fetch with timeout
 const fetchWithTimeout = async (url, options = {}, timeout = 5000) => {
