@@ -161,18 +161,20 @@ function Header() {
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
-      <Logo
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <LogoIcon
-          src={logo}
-          alt="T Logo"
-          whileHover={{ rotate: 360 }}
-          transition={{ duration: 0.5 }}
-        />
-        <Title>Tavice</Title>
-      </Logo>
+      <Link to="/" style={{ textDecoration: 'none' }}>
+        <Logo
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <LogoIcon
+            src={logo}
+            alt="T Logo"
+            whileHover={{ rotate: 360 }}
+            transition={{ duration: 0.5 }}
+          />
+          <Title>Tavice</Title>
+        </Logo>
+      </Link>
       <MenuButton
         onClick={toggleMenu}
         whileHover={{ scale: 1.1 }}
@@ -207,6 +209,25 @@ function Header() {
           </Nav>
         )}
       </AnimatePresence>
+      {/* Desktop Navigation */}
+      <Nav className="desktop-nav" style={{ display: 'flex' }}>
+        <LinkWrapper
+          whileHover={{ x: 5 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Link to="/projects">
+            Projects
+          </Link>
+        </LinkWrapper>
+        <LinkWrapper
+          whileHover={{ x: 5 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Link to="/about">
+            About
+          </Link>
+        </LinkWrapper>
+      </Nav>
     </HeaderWrapper>
   );
 }
