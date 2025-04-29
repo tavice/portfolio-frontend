@@ -36,7 +36,8 @@ const ProfileImage = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 100px;
-  margin-bottom: 32px;
+  margin: 0 auto 32px;
+  display: block;
   object-fit: cover;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   border: 4px solid ${({ theme }) => theme.colors.background};
