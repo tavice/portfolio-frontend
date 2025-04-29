@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub } from 'react-icons/fa';
 import { theme } from '../styles/theme';
+import { sendContactEmail } from '../services/api';
 
 const Container = styled(motion.div)`
   max-width: 1200px;
@@ -249,9 +250,7 @@ function Contact() {
     setStatus({ submitting: true, success: false, error: null });
     
     try {
-      // In a real implementation, you would send this to your backend
-      // For now, we'll simulate a successful submission
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await sendContactEmail(formData);
       
       setStatus({
         submitting: false,
@@ -275,7 +274,7 @@ function Contact() {
       setStatus({
         submitting: false,
         success: false,
-        error: 'Failed to send message. Please try again later.'
+        error: error.response?.data?.error || 'Failed to send message. Please try again later.'
       });
     }
   };

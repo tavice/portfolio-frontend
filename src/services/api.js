@@ -48,4 +48,14 @@ export const getProjects = async () => {
     console.error('Error fetching projects:', error);
     throw error;
   }
+};
+
+export const sendContactEmail = async (formData) => {
+  try {
+    const response = await axios.post(`${API_URL}/contact`, formData);
+    return response.data;
+  } catch (error) {
+    console.error('Error sending contact email:', error);
+    throw error;
+  }
 }; 
