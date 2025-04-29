@@ -1,4 +1,6 @@
-import "./App.css";
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyles } from './styles/GlobalStyles';
+import { theme } from './styles/theme';
 
 //Import components
 import Header from "./components/Header.js";
@@ -10,23 +12,26 @@ import { Route, Routes } from "react-router-dom";
 import About from "./pages/About.js";
 import Projects from "./pages/Projects";
 
-
-
 function App() {
   // URL should have YOUR HEROKU URL for your backend, make sure you include the trailing slash
   const URL = "https://portfolio-backend-tavice.herokuapp.com/";
 
   return (
-    <div className="App">
-      <Header />
-      <Routes>
-        <Route exact path="/" element={<About URL={URL} />} />
-        {/* <Route exact path="/contact" element={<Contact />} /> */}
-        <Route exact path="/projects" element={<Projects URL={URL} />} />
-        <Route exact path="/about" element={<About URL={URL} />} />
-      </Routes>
-      <Footer />
-    </div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <div className="App">
+        <Header />
+        <main style={{ paddingTop: 'var(--header-height, 70px)' }}>
+          <Routes>
+            <Route exact path="/" element={<About URL={URL} />} />
+            {/* <Route exact path="/contact" element={<Contact />} /> */}
+            <Route exact path="/projects" element={<Projects URL={URL} />} />
+            <Route exact path="/about" element={<About URL={URL} />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 

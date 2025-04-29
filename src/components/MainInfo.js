@@ -1,60 +1,150 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+import { theme } from "../styles/theme";
 
 // Define styled components
-const MainInfoContainer = styled.div`
+const MainInfoContainer = styled(motion.div)`
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 20px;
+  gap: ${theme.spacing.xl};
   align-items: center;
-  margin-bottom: 20px;
-  margin-top:40px;
+  margin: ${theme.spacing.xxl} 0;
+  padding: ${theme.spacing.xl};
+  background: ${theme.colors.surface};
+  border-radius: ${theme.borderRadius.lg};
+  box-shadow: ${theme.shadows.md};
+  transition: transform ${theme.transitions.default}, box-shadow ${theme.transitions.default};
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: ${theme.shadows.lg};
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: ${theme.spacing.lg};
+    padding: ${theme.spacing.lg};
+  }
 `;
 
-const MainInfoImage = styled.img`
-  max-width: 100%;
+const MainInfoImage = styled(motion.img)`
+  width: 200px;
+  height: 200px;
+  border-radius: ${theme.borderRadius.full};
+  object-fit: cover;
+  box-shadow: ${theme.shadows.md};
+  border: 4px solid ${theme.colors.background};
+
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
 `;
 
-const MainInfoList = styled.ul`
+const MainInfoList = styled(motion.ul)`
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.md};
 `;
 
-const MainInfoListItem = styled.li`
-  margin-bottom: 10px;
+const MainInfoListItem = styled(motion.li)`
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing.sm};
+  color: ${theme.colors.text.secondary};
+  font-size: ${theme.typography.body.fontSize};
+
+  strong {
+    color: ${theme.colors.text.primary};
+    font-weight: 600;
+  }
+
+  a {
+    color: ${theme.colors.primary};
+    text-decoration: none;
+    transition: color ${theme.transitions.default};
+
+    &:hover {
+      color: ${theme.colors.secondary};
+    }
+  }
 `;
 
-const MainInfoListItemName = styled.li`
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    font-weight: bold;
+const MainInfoListItemName = styled(motion.h1)`
+  font-size: ${theme.typography.h1.fontSize};
+  font-weight: ${theme.typography.h1.fontWeight};
+  color: ${theme.colors.text.primary};
+  margin: 0;
+  background: linear-gradient(45deg, ${theme.colors.primary}, ${theme.colors.secondary});
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
-const MainInfoListItemTitle = styled.li`
-    margin-bottom: 10px;
-    font-size: 1.2rem;
-    font-weight: bold;
+const MainInfoListItemTitle = styled(motion.h2)`
+  font-size: ${theme.typography.h2.fontSize};
+  font-weight: ${theme.typography.h2.fontWeight};
+  color: ${theme.colors.text.secondary};
+  margin: 0;
 `;
+
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut"
+    }
+  }
+};
 
 function MainInfo({ mainInfo }) {
   return (
-    <MainInfoContainer>
-      <MainInfoImage src={mainInfo.headshot} alt="Headshot" />
+    <MainInfoContainer
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <MainInfoImage
+        src={mainInfo.headshot}
+        alt="Headshot"
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.3 }}
+      />
       <MainInfoList>
-        <MainInfoListItemName>
-         {mainInfo.name}
+        <MainInfoListItemName variants={itemVariants}>
+          {mainInfo.name}
         </MainInfoListItemName>
-        <MainInfoListItemTitle>
-        {mainInfo.title}
+        <MainInfoListItemTitle variants={itemVariants}>
+          {mainInfo.title}
         </MainInfoListItemTitle>
-        <MainInfoListItem>
+        <MainInfoListItem variants={itemVariants}>
           <strong>Location:</strong> {mainInfo.location}
         </MainInfoListItem>
-        <MainInfoListItem>
-          <strong>Email:</strong> <a href={"mailto:"+mainInfo.email} >{mainInfo.email}</a>
+        <MainInfoListItem variants={itemVariants}>
+          <strong>Email:</strong> <a href={`mailto:${mainInfo.email}`}>{mainInfo.email}</a>
         </MainInfoListItem>
-        <MainInfoListItem>
+        <MainInfoListItem variants={itemVariants}>
           <strong>Phone:</strong> {mainInfo.phone}
         </MainInfoListItem>
       </MainInfoList>
