@@ -115,8 +115,8 @@ const ProjectLink = styled(motion.a)`
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: ${({ theme, primary }) => primary ? theme.colors.primary : 'transparent'};
-  color: ${({ theme, primary }) => primary ? '#fff' : theme.colors.primary};
+  background: ${({ theme, $primary }) => $primary ? theme.colors.primary : 'transparent'};
+  color: ${({ theme, $primary }) => $primary ? '#fff' : theme.colors.primary};
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 20px;
   text-decoration: none;
@@ -125,7 +125,7 @@ const ProjectLink = styled(motion.a)`
   transition: all 0.2s ease;
   
   &:hover {
-    background: ${({ theme, primary }) => primary ? theme.colors.primaryDark : theme.colors.background};
+    background: ${({ theme, $primary }) => $primary ? theme.colors.primaryDark : theme.colors.background};
   }
   
   svg {
@@ -233,7 +233,7 @@ function Projects() {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  primary
+                  $primary
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

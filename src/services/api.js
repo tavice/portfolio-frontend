@@ -2,27 +2,42 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_RENDER_URL || 'http://localhost:10000';
 
-// Helper function to handle fetch with timeout
-const fetchWithTimeout = async (url, options = {}, timeout = 5000) => {
-  const controller = new AbortController();
-  const id = setTimeout(() => controller.abort(), timeout);
-  
-  try {
-    const response = await fetch(url, {
-      ...options,
-      signal: controller.signal
-    });
-    clearTimeout(id);
-    return response;
-  } catch (error) {
-    clearTimeout(id);
+// Create axios instance with default config
+const api = axios.create({
+  baseURL: API_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  }
+});
+
+// Add response interceptor for better error handling
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error('API Error Response:', {
+        status: error.response.status,
+        data: error.response.data,
+        headers: error.response.headers
+      });
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error('API Request Error:', error.request);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error('API Error:', error.message);
+    }
     throw error;
   }
-};
+);
 
 export const getAbout = async () => {
   try {
-    const response = await axios.get(`${API_URL}/about`);
+    const response = await api.get('/about');
     return response.data;
   } catch (error) {
     console.error('Error fetching about data:', error);
@@ -32,7 +47,7 @@ export const getAbout = async () => {
 
 export const getMainInfo = async () => {
   try {
-    const response = await axios.get(`${API_URL}/main-info`);
+    const response = await api.get('/main-info');
     return response.data;
   } catch (error) {
     console.error('Error fetching main info:', error);
@@ -42,7 +57,7 @@ export const getMainInfo = async () => {
 
 export const getProjects = async () => {
   try {
-    const response = await axios.get(`${API_URL}/projects`);
+    const response = await api.get('/projects');
     return response.data;
   } catch (error) {
     console.error('Error fetching projects:', error);
@@ -52,7 +67,7 @@ export const getProjects = async () => {
 
 export const sendContactEmail = async (formData) => {
   try {
-    const response = await axios.post(`${API_URL}/contact`, formData);
+    const response = await api.post('/contact', formData);
     return response.data;
   } catch (error) {
     console.error('Error sending contact email:', error);
