@@ -15,6 +15,8 @@ const FooterContainer = styled(motion.footer)`
   font-size: 1rem;
   margin-top: 80px;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
+  min-height: 200px;
+  will-change: transform;
 `;
 
 const FooterContent = styled.div`
@@ -24,6 +26,13 @@ const FooterContent = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 32px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
   
   @media (min-width: 768px) {
     flex-direction: row;
@@ -31,16 +40,17 @@ const FooterContent = styled.div`
   }
 `;
 
-const FooterText = styled(motion.p)`
+const FooterText = styled.p`
   margin: 0;
   text-align: center;
   color: ${theme.colors.text.secondary};
 `;
 
-const SocialIconsContainer = styled(motion.div)`
+const SocialIconsContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 24px;
+  flex-wrap: wrap;
 `;
 
 const SocialLink = styled(motion.a)`
@@ -55,6 +65,7 @@ const SocialLink = styled(motion.a)`
   border-radius: 20px;
   background: ${theme.colors.background};
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  will-change: transform;
   
   &:hover {
     color: ${theme.colors.primary};
@@ -67,42 +78,14 @@ const SocialLink = styled(motion.a)`
   }
 `;
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-      staggerChildren: 0.1
-    }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut"
-    }
-  }
-};
-
 function Footer() {
   return (
-    <FooterContainer
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-    >
+    <FooterContainer>
       <FooterContent>
-        <FooterText variants={itemVariants}>
+        <FooterText>
           © {new Date().getFullYear()} Thomas Avice. All rights reserved.
         </FooterText>
-        <SocialIconsContainer variants={itemVariants}>
+        <SocialIconsContainer>
           <SocialLink
             href="https://github.com/tavice"
             target="_blank"

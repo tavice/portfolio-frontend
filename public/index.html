@@ -1,122 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-BG0L2XH25K"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
 
-      gtag("config", "G-BG0L2XH25K");
-    </script>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Thomas Avice - Fullstack developer with expertise in React, Node.js, Express, and more. Portfolio demonstrating skills in web development and cloud technologies."
-    />
+<head>
+  <!-- Preconnect to required origins -->
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="https://portfolio-backend-en4x.onrender.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
-    <!--
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BG0L2XH25K"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "G-BG0L2XH25K");
+  </script>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Primary Meta Tags -->
+  <title>Thomas Avice - Fullstack Developer Portfolio</title>
+  <meta name="title" content="Thomas Avice - Fullstack Developer Portfolio">
+  <meta name="description"
+    content="Thomas Avice - Fullstack developer with expertise in React, Node.js, Express, and more. Portfolio demonstrating skills in web development and cloud technologies." />
+  <meta name="keywords"
+    content="Thomas Avice, Fullstack Developer, Web Development, React, Node.js, Express, MongoDB, MySQL, Portfolio, Software Engineer">
+  <meta name="author" content="Thomas Avice">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="revisit-after" content="7 days">
+  <meta name="generator" content="React">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://thomasavice.com/" />
+
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <!--Open Graph Meta Tag-->
-    <meta property="og:title" content="Thomas Avice - Portfolio" />
-    <meta
-      property="og:description"
-      content="Fullstack developer specializing in React, Node.js, Express, MongoDB, MySQL, and more."
-    />
-    <meta property="og:image" content="%PUBLIC_URL%/profile-picture.png" />
-    <meta property="og:url" content="https://thomasavice.com/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Thomas Avice - Portfolio" />
+  <!-- Load Material Icons font with display=swap -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet" media="print"
+    onload="this.media='all'" />
 
-    <!--Twitter Meta Tag-->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Thomas Avice - Portfolio" />
-    <meta
-      name="twitter:description"
-      content="Fullstack developer specializing in React, Node.js, Express, MongoDB, MySQL, and more."
-    />
-    <meta name="twitter:image" content="%PUBLIC_URL%/profile-picture.png" />
-    <meta name="twitter:site" content="https://thomasavice.com/" />
+  <!--Open Graph Meta Tag-->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://thomasavice.com/" />
+  <meta property="og:title" content="Thomas Avice - Fullstack Developer Portfolio" />
+  <meta property="og:description"
+    content="Fullstack developer specializing in React, Node.js, Express, MongoDB, MySQL, and more. View my projects and get in touch." />
+  <meta property="og:image" content="%PUBLIC_URL%/profile-picture.png" />
+  <meta property="og:site_name" content="Thomas Avice - Portfolio" />
+  <meta property="og:locale" content="en_US" />
 
-    <!--jsondl-->
-    <!-- Person -->
-    <script type="application/ld+json">
-      {
-        "@context": "http://schema.org",
+  <!--Twitter Meta Tag-->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="https://thomasavice.com/" />
+  <meta name="twitter:creator" content="@thomasavice" />
+  <meta name="twitter:title" content="Thomas Avice - Fullstack Developer Portfolio" />
+  <meta name="twitter:description"
+    content="Fullstack developer specializing in React, Node.js, Express, MongoDB, MySQL, and more. View my projects and get in touch." />
+  <meta name="twitter:image" content="%PUBLIC_URL%/profile-picture.png" />
+
+  <!-- Structured Data - Person -->
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "Thomas Avice",
+      "jobTitle": "Fullstack Developer",
+      "url": "https://thomasavice.com/",
+      "image": "https://i.ibb.co/yq4z2zj/120138049.png,
+      "email": "thomasavice.ta@gmail.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/thomasavice/",
+        "https://github.com/tavice"
+      ],
+      "knowsAbout": [
+        "Web Development",
+        "React",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "MySQL",
+        "JavaScript",
+        "TypeScript"
+      ]
+    }
+  </script>
+
+  <!-- Structured Data - WebSite -->
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "Thomas Avice Portfolio",
+      "url": "https://thomasavice.com/",
+      "description": "Fullstack developer specializing in React, Node.js, Express, MongoDB, MySQL, and more.",
+      "author": {
         "@type": "Person",
-        "name": "Thomas Avice",
-        "jobTitle": "Fullstack Developer",
-        "url": "https://thomasavice.com/",
-        "sameAs": [
-          "https://www.linkedin.com/in/thomasavice/",
-          "https://github.com/tavice"
-        ]
+        "name": "Thomas Avice"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://thomasavice.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
-    </script>
+    }
+  </script>
 
-    <!-- Breadcrumb -->
-    <script type="application/ld+json">
-      {
-        "@context": "http://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "item": {
-              "@id": "https://thomasavice.com/",
-              "name": "Home"
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "item": {
-              "@id": "https://thomasavice.com/projects",
-              "name": "Projects"
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "item": {
-              "@id": "https://thomasavice.com/about",
-              "name": "About"
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 4,
-            "item": {
-              "@id": "https://www.maisonavice.com/",
-              "name": "Maison Avice"
-            }
+  <!-- Structured Data - Breadcrumb -->
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@id": "https://thomasavice.com/",
+            "name": "Home"
           }
-        ]
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@id": "https://thomasavice.com/projects",
+            "name": "Projects"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@id": "https://thomasavice.com/about",
+            "name": "About"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@id": "https://www.maisonavice.com/",
+            "name": "Maison Avice"
+          }
+        }
+      ]
+    }
+  </script>
+
+  <!-- Structured Data - Organization -->
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "Thomas Avice",
+      "url": "https://thomasavice.com/",
+      "logo": "https://thomasavice.com/logo-ta.png",
+      "sameAs": [
+        "https://www.linkedin.com/in/thomasavice/",
+        "https://github.com/tavice"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "thomasavice.ta@gmail.com"
       }
-    </script>
+    }
+  </script>
 
-    <!--Material icon-->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
-
-    <!--
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -125,12 +189,12 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Thomas Avice - Portfolio</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -140,5 +204,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

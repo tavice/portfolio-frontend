@@ -23,9 +23,11 @@ const HeaderWrapper = styled(motion.header)`
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  height: 72px;
 
   @media (max-width: 768px) {
     padding: 12px 20px;
+    height: 64px;
   }
 `;
 

@@ -4,13 +4,13 @@ import { motion } from 'framer-motion';
 import { FaGithub, FaGlobe } from 'react-icons/fa';
 import { getProjects } from '../services/api';
 
-const Container = styled(motion.div)`
+const ProjectsContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 24px;
+  padding: 40px 24px;
   
   @media (max-width: 768px) {
-    padding: 40px 20px;
+    padding: 24px 16px;
   }
 `;
 
@@ -33,61 +33,68 @@ const Subtitle = styled.p`
   margin: 0 auto;
 `;
 
-const ProjectsGrid = styled(motion.div)`
+const ProjectsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 24px;
   }
 `;
 
 const ProjectCard = styled(motion.div)`
-  background: ${({ theme }) => theme.colors.surface};
+  background: ${props => props.theme.colors.background.secondary};
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   
-  &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  @media (max-width: 768px) {
+    border-radius: 12px;
   }
 `;
 
-const ProjectImage = styled.div`
+const ProjectImage = styled.img`
   width: 100%;
   height: 200px;
-  overflow: hidden;
+  object-fit: cover;
   
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-    
-    ${ProjectCard}:hover & {
-      transform: scale(1.05);
-    }
+  @media (max-width: 768px) {
+    height: 180px;
   }
 `;
 
 const ProjectContent = styled.div`
-  padding: 24px;
+  padding: 20px;
+  
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
 `;
 
 const ProjectTitle = styled.h3`
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: ${({ theme }) => theme.colors.text.primary};
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: ${props => props.theme.colors.text.primary};
+  
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const ProjectDescription = styled.p`
-  font-size: 1rem;
+  font-size: 0.95rem;
+  color: ${props => props.theme.colors.text.secondary};
+  margin-bottom: 16px;
   line-height: 1.5;
-  color: ${({ theme }) => theme.colors.text.secondary};
-  margin-bottom: 20px;
+  
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
 `;
 
 const TechStack = styled.div`
@@ -107,29 +114,33 @@ const TechTag = styled.span`
 
 const ProjectLinks = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 12px;
+  
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
 `;
 
-const ProjectLink = styled(motion.a)`
-  display: flex;
+const ProjectLink = styled.a`
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   padding: 8px 16px;
-  background: ${({ theme, $primary }) => $primary ? theme.colors.primary : 'transparent'};
-  color: ${({ theme, $primary }) => $primary ? '#fff' : theme.colors.primary};
-  border: 1px solid ${({ theme }) => theme.colors.primary};
-  border-radius: 20px;
+  background: ${props => props.theme.colors.primary};
+  color: white;
   text-decoration: none;
+  border-radius: 20px;
   font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   
   &:hover {
-    background: ${({ theme, $primary }) => $primary ? theme.colors.primaryDark : theme.colors.background};
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
-  svg {
-    font-size: 1rem;
+  @media (max-width: 768px) {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 `;
 
@@ -175,28 +186,28 @@ function Projects() {
 
   if (error) {
     return (
-      <Container>
+      <ProjectsContainer>
         <Header>
           <Title>Projects</Title>
           <Subtitle>{error}</Subtitle>
         </Header>
-      </Container>
+      </ProjectsContainer>
     );
   }
 
   if (!projects) {
     return (
-      <Container>
+      <ProjectsContainer>
         <Header>
           <Title>Projects</Title>
           <Subtitle>Loading projects...</Subtitle>
         </Header>
-      </Container>
+      </ProjectsContainer>
     );
   }
 
   return (
-    <Container
+    <ProjectsContainer
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -217,9 +228,7 @@ function Projects() {
             variants={itemVariants}
             whileHover={{ y: -8 }}
           >
-            <ProjectImage>
-              <img src={project.image} alt={project.name} />
-            </ProjectImage>
+            <ProjectImage src={project.image} alt={project.name} />
             <ProjectContent>
               <ProjectTitle>{project.name}</ProjectTitle>
               <ProjectDescription>{project.description}</ProjectDescription>
@@ -233,9 +242,6 @@ function Projects() {
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  $primary
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                 >
                   <FaGithub />
                   GitHub
@@ -245,8 +251,6 @@ function Projects() {
                     href={project.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                   >
                     <FaGlobe />
                     Website
@@ -257,7 +261,7 @@ function Projects() {
           </ProjectCard>
         ))}
       </ProjectsGrid>
-    </Container>
+    </ProjectsContainer>
   );
 }
 

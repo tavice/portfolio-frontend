@@ -1,6 +1,7 @@
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { theme } from './styles/theme';
+import styled from 'styled-components';
 
 //Import components
 import Header from "./components/Header.js";
@@ -12,22 +13,37 @@ import Contact from "./pages/Contact.js";
 import About from "./pages/About.js";
 import Projects from "./pages/Projects";
 
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const MainContent = styled.main`
+  flex: 1;
+  padding-top: 72px; /* Match header height */
+  
+  @media (max-width: 768px) {
+    padding-top: 64px; /* Match mobile header height */
+  }
+`;
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <div className="App">
+      <AppContainer>
         <Header />
-        <main style={{ paddingTop: 'var(--header-height, 70px)' }}>
+        <MainContent>
           <Routes>
             <Route exact path="/" element={<About />} />
             <Route exact path="/contact" element={<Contact />} />
             <Route exact path="/projects" element={<Projects />} />
             <Route exact path="/about" element={<About />} />
           </Routes>
-        </main>
+        </MainContent>
         <Footer />
-      </div>
+      </AppContainer>
     </ThemeProvider>
   );
 }
