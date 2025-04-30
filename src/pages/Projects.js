@@ -8,6 +8,9 @@ const ProjectsContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 24px;
+  background-color: ${({ theme }) => theme.colors.background.primary};
+  color: ${({ theme }) => theme.colors.text.primary};
+  transition: background-color 0.3s ease, color 0.3s ease;
   
   @media (max-width: 768px) {
     padding: 24px 16px;
@@ -47,10 +50,11 @@ const ProjectsGrid = styled.div`
 `;
 
 const ProjectCard = styled(motion.div)`
-  background: ${props => props.theme.colors.background.secondary};
+  background: ${({ theme }) => theme.colors.background.secondary};
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
   
   @media (max-width: 768px) {
     border-radius: 12px;
@@ -78,7 +82,7 @@ const ProjectContent = styled.div`
 const ProjectTitle = styled.h3`
   font-size: 1.25rem;
   margin-bottom: 8px;
-  color: ${props => props.theme.colors.text.primary};
+  color: ${({ theme }) => theme.colors.text.primary};
   
   @media (max-width: 768px) {
     font-size: 1.1rem;
@@ -87,7 +91,7 @@ const ProjectTitle = styled.h3`
 
 const ProjectDescription = styled.p`
   font-size: 0.95rem;
-  color: ${props => props.theme.colors.text.secondary};
+  color: ${({ theme }) => theme.colors.text.secondary};
   margin-bottom: 16px;
   line-height: 1.5;
   
@@ -126,7 +130,7 @@ const ProjectLink = styled.a`
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background: ${props => props.theme.colors.primary};
+  background: ${({ theme }) => theme.colors.primary};
   color: white;
   text-decoration: none;
   border-radius: 20px;

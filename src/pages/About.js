@@ -8,6 +8,9 @@ const Container = styled(motion.div)`
   max-width: 1200px;
   margin: 0 auto;
   padding: 60px 24px;
+  background-color: ${({ theme }) => theme.colors.background.primary};
+  color: ${({ theme }) => theme.colors.text.primary};
+  transition: background-color 0.3s ease, color 0.3s ease;
   
   @media (max-width: 768px) {
     padding: 40px 20px;
@@ -40,7 +43,7 @@ const ProfileImage = styled.img`
   display: block;
   object-fit: cover;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  border: 4px solid ${({ theme }) => theme.colors.background};
+  border: 4px solid ${({ theme }) => theme.colors.background.primary};
 `;
 
 const Name = styled.h1`
