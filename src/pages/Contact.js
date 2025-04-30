@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub } from 'react-icons/fa';
-import { theme } from '../styles/theme';
+import { useTheme } from '../context/ThemeContext';
 import { sendContactEmail } from '../services/api';
 
 const Container = styled(motion.div)`
   max-width: 1200px;
   margin: 0 auto;
   padding: 60px 24px;
+  background: ${({ theme }) => theme.colors.background.primary};
   
   @media (max-width: 768px) {
     padding: 40px 20px;
@@ -29,7 +30,7 @@ const Header = styled.div`
     width: 60px;
     height: 4px;
     background: ${({ theme }) => theme.colors.primary};
-    border-radius: 2px;
+    border-radius: ${({ theme }) => theme.borderRadius.sm};
   }
 `;
 
@@ -38,6 +39,7 @@ const Title = styled.h1`
   font-weight: 700;
   margin-bottom: 16px;
   color: ${({ theme }) => theme.colors.text.primary};
+  font-family: ${({ theme }) => theme.fonts.heading};
 `;
 
 const Subtitle = styled.p`
@@ -45,6 +47,7 @@ const Subtitle = styled.p`
   color: ${({ theme }) => theme.colors.text.secondary};
   max-width: 600px;
   margin: 0 auto;
+  font-family: ${({ theme }) => theme.fonts.body};
 `;
 
 const ContentGrid = styled.div`
@@ -69,14 +72,14 @@ const ContactCard = styled(motion.div)`
   align-items: flex-start;
   gap: 16px;
   padding: 24px;
-  background: ${({ theme }) => theme.colors.surface};
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  background: ${({ theme }) => theme.colors.background.secondary};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
+  transition: all ${({ theme }) => theme.transitions.default};
   
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    box-shadow: ${({ theme }) => theme.shadows.md};
   }
 `;
 
@@ -87,8 +90,8 @@ const IconWrapper = styled.div`
   width: 48px;
   height: 48px;
   background: ${({ theme }) => theme.colors.primary};
-  color: white;
-  border-radius: 50%;
+  color: ${({ theme }) => theme.colors.white};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: 1.5rem;
   flex-shrink: 0;
 `;
@@ -99,6 +102,7 @@ const ContactDetails = styled.div`
     font-weight: 600;
     margin-bottom: 8px;
     color: ${({ theme }) => theme.colors.text.primary};
+    font-family: ${({ theme }) => theme.fonts.heading};
   }
   
   p, a {
@@ -106,10 +110,11 @@ const ContactDetails = styled.div`
     color: ${({ theme }) => theme.colors.text.secondary};
     margin: 0;
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color ${({ theme }) => theme.transitions.default};
+    font-family: ${({ theme }) => theme.fonts.body};
     
     &:hover {
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.text.highlight};
     }
   }
 `;
@@ -125,16 +130,16 @@ const SocialLinks = styled.div`
     justify-content: center;
     width: 36px;
     height: 36px;
-    background: ${({ theme }) => theme.colors.background};
+    background: ${({ theme }) => theme.colors.background.hover};
     color: ${({ theme }) => theme.colors.text.secondary};
-    border-radius: 50%;
+    border-radius: ${({ theme }) => theme.borderRadius.full};
     font-size: 1.2rem;
-    transition: all 0.2s ease;
+    transition: all ${({ theme }) => theme.transitions.default};
     
     &:hover {
-      color: ${({ theme }) => theme.colors.primary};
+      color: ${({ theme }) => theme.colors.text.highlight};
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: ${({ theme }) => theme.shadows.md};
     }
   }
 `;
@@ -154,21 +159,23 @@ const FormGroup = styled.div`
     font-size: 0.9rem;
     font-weight: 500;
     color: ${({ theme }) => theme.colors.text.primary};
+    font-family: ${({ theme }) => theme.fonts.body};
   }
   
   input, textarea {
     padding: 12px 16px;
-    border: 1px solid ${({ theme }) => theme.colors.text.tertiary};
-    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.colors.border};
+    border-radius: ${({ theme }) => theme.borderRadius.md};
     font-size: 1rem;
     color: ${({ theme }) => theme.colors.text.primary};
-    background: ${({ theme }) => theme.colors.background};
-    transition: all 0.2s ease;
+    background: ${({ theme }) => theme.colors.background.secondary};
+    transition: all ${({ theme }) => theme.transitions.default};
+    font-family: ${({ theme }) => theme.fonts.body};
     
     &:focus {
       outline: none;
       border-color: ${({ theme }) => theme.colors.primary};
-      box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+      box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary}33;
     }
   }
   
@@ -181,46 +188,39 @@ const FormGroup = styled.div`
 const SubmitButton = styled(motion.button)`
   padding: 14px 28px;
   background: ${({ theme }) => theme.colors.primary};
-  color: white;
+  color: ${({ theme }) => theme.colors.white};
   border: none;
-  border-radius: 30px;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all ${({ theme }) => theme.transitions.default};
   align-self: flex-start;
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.2);
+  box-shadow: ${({ theme }) => theme.shadows.md};
+  font-family: ${({ theme }) => theme.fonts.body};
   
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryDark};
+    opacity: 0.9;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 122, 255, 0.3);
+    box-shadow: ${({ theme }) => theme.shadows.lg};
   }
+`;
+
+const Message = styled.div`
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-top: 16px;
   
-  &:disabled {
-    background: ${({ theme }) => theme.colors.text.tertiary};
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-`;
-
-const SuccessMessage = styled(motion.div)`
-  padding: 16px 24px;
-  background: ${({ theme }) => theme.colors.success};
-  color: white;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-top: 16px;
-`;
-
-const ErrorMessage = styled(motion.div)`
-  padding: 16px 24px;
-  background: ${({ theme }) => theme.colors.error};
-  color: white;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-top: 16px;
+  ${({ success, theme }) => success ? `
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  ` : `
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  `}
 `;
 
 function Contact() {
@@ -228,15 +228,12 @@ function Contact() {
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
-  
-  const [status, setStatus] = useState({
-    submitting: false,
-    success: false,
-    error: null
-  });
-  
+  const [status, setStatus] = useState({ type: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { isDarkMode } = useTheme();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -244,120 +241,86 @@ function Contact() {
       [name]: value
     }));
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ submitting: true, success: false, error: null });
-    
+    setIsSubmitting(true);
+    setStatus({ type: '', message: '' });
+
     try {
       await sendContactEmail(formData);
-      
       setStatus({
-        submitting: false,
-        success: true,
-        error: null
+        type: 'success',
+        message: 'Thank you for your message! I will get back to you soon.',
       });
-      
-      // Reset form
       setFormData({
         name: '',
         email: '',
         subject: '',
-        message: ''
+        message: '',
       });
-      
-      // Clear success message after 5 seconds
-      setTimeout(() => {
-        setStatus(prev => ({ ...prev, success: false }));
-      }, 5000);
     } catch (error) {
       setStatus({
-        submitting: false,
-        success: false,
-        error: error.response?.data?.error || 'Failed to send message. Please try again later.'
+        type: 'error',
+        message: 'Sorry, something went wrong. Please try again later.',
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
-  
+
   return (
     <Container
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
+      className={isDarkMode ? 'dark-mode' : ''}
     >
       <Header>
         <Title>Get in Touch</Title>
-        <Subtitle>
-          Have a question or want to work together? Feel free to reach out!
-        </Subtitle>
+        <Subtitle>Have a question or want to work together? I'd love to hear from you!</Subtitle>
       </Header>
-      
+
       <ContentGrid>
         <ContactInfo>
-          <ContactCard
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.2 }}
-          >
+          <ContactCard whileHover={{ y: -4 }}>
             <IconWrapper>
               <FaEnvelope />
             </IconWrapper>
             <ContactDetails>
               <h3>Email</h3>
-              <a href="mailto:thomasavice.ta@gmail.com">thomasavice.ta@gmail.com</a>
-              <p>Feel free to email me anytime!</p>
+              <a href="mailto:thomas.avice@gmail.com">thomas.avice@gmail.com</a>
             </ContactDetails>
           </ContactCard>
-          
-          <ContactCard
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.2 }}
-          >
-            <IconWrapper>
-              <FaPhone />
-            </IconWrapper>
-            <ContactDetails>
-              <h3>Phone</h3>
-              <a href="tel:+14154073693">+1 (415) 407-3693</a>
-              <p>Available during business hours</p>
-            </ContactDetails>
-          </ContactCard>
-          
-          <ContactCard
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.2 }}
-          >
+
+          <ContactCard whileHover={{ y: -4 }}>
             <IconWrapper>
               <FaMapMarkerAlt />
             </IconWrapper>
             <ContactDetails>
               <h3>Location</h3>
-              <p>San Francisco, CA</p>
-              <p>Open to remote work opportunities</p>
+              <p>San Francisco Bay Area, CA</p>
             </ContactDetails>
           </ContactCard>
-          
-          <ContactCard
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.2 }}
-          >
+
+          <ContactCard whileHover={{ y: -4 }}>
             <IconWrapper>
-              <FaGithub />
+              <FaPhone />
             </IconWrapper>
             <ContactDetails>
               <h3>Connect</h3>
-              <p>Let's connect on social media</p>
               <SocialLinks>
-                <a href="https://github.com/tavice" target="_blank" rel="noopener noreferrer">
+                <a href="https://github.com/thomasavice" target="_blank" rel="noopener noreferrer">
                   <FaGithub />
                 </a>
-                <a href="https://www.linkedin.com/in/thomasavice" target="_blank" rel="noopener noreferrer">
+                <a href="https://linkedin.com/in/thomasavice" target="_blank" rel="noopener noreferrer">
                   <FaLinkedin />
                 </a>
               </SocialLinks>
             </ContactDetails>
           </ContactCard>
         </ContactInfo>
-        
+
         <ContactForm onSubmit={handleSubmit}>
           <FormGroup>
             <label htmlFor="name">Name</label>
@@ -368,10 +331,9 @@ function Contact() {
               value={formData.name}
               onChange={handleChange}
               required
-              placeholder="Your name"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <label htmlFor="email">Email</label>
             <input
@@ -381,10 +343,9 @@ function Contact() {
               value={formData.email}
               onChange={handleChange}
               required
-              placeholder="Your email"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <label htmlFor="subject">Subject</label>
             <input
@@ -394,10 +355,9 @@ function Contact() {
               value={formData.subject}
               onChange={handleChange}
               required
-              placeholder="Subject"
             />
           </FormGroup>
-          
+
           <FormGroup>
             <label htmlFor="message">Message</label>
             <textarea
@@ -406,37 +366,22 @@ function Contact() {
               value={formData.message}
               onChange={handleChange}
               required
-              placeholder="Your message"
             />
           </FormGroup>
-          
+
           <SubmitButton
             type="submit"
-            disabled={status.submitting}
+            disabled={isSubmitting}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            {status.submitting ? 'Sending...' : 'Send Message'}
+            {isSubmitting ? 'Sending...' : 'Send Message'}
           </SubmitButton>
-          
-          {status.success && (
-            <SuccessMessage
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-            >
-              Thank you for your message! I'll get back to you soon.
-            </SuccessMessage>
-          )}
-          
-          {status.error && (
-            <ErrorMessage
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-            >
-              {status.error}
-            </ErrorMessage>
+
+          {status.message && (
+            <Message success={status.type === 'success'}>
+              {status.message}
+            </Message>
           )}
         </ContactForm>
       </ContentGrid>

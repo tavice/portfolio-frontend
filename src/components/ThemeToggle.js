@@ -4,45 +4,68 @@ import { motion } from 'framer-motion';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { useTheme } from '../context/ThemeContext';
 
-const ToggleButton = styled(motion.button)`
+const ToggleContainer = styled.div`
   position: fixed;
   bottom: 24px;
   right: 24px;
-  width: 48px;
-  height: 48px;
-  border-radius: 24px;
-  background: ${({ theme }) => theme.colors.background.secondary};
-  border: none;
-  cursor: pointer;
+  z-index: 1000;
+`;
+
+const ToggleButton = styled(motion.button)`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  border: none;
+  background-color: ${({ theme }) => theme.colors.background.secondary};
   color: ${({ theme }) => theme.colors.text.primary};
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: ${({ theme }) => theme.shadows.lg};
+
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    box-shadow: ${({ theme }) => theme.shadows.lg};
+    background-color: ${({ theme }) => theme.colors.background.secondary};
+    color: ${({ theme }) => theme.colors.primary};
   }
-  
+
   svg {
-    font-size: 1.2rem;
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+    bottom: 16px;
+    right: 16px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
   }
 `;
 
 const ThemeToggle = () => {
-  const { isDarkMode, toggleTheme } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
 
   return (
-    <ToggleButton
-      onClick={toggleTheme}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      aria-label="Toggle dark mode"
-    >
-      {isDarkMode ? <FaSun /> : <FaMoon />}
-    </ToggleButton>
+    <ToggleContainer>
+      <ToggleButton
+        onClick={toggleTheme}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.2 }}
+        aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      >
+        {isDark ? <FaSun /> : <FaMoon />}
+      </ToggleButton>
+    </ToggleContainer>
   );
 };
 

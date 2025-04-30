@@ -2,21 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
-import { theme } from "../styles/theme";
 
 const FooterContainer = styled(motion.footer)`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${theme.colors.surface};
+  background-color: ${({ theme }) => theme.colors.background.primary};
   padding: 60px 24px;
-  color: ${theme.colors.text.primary};
+  color: ${({ theme }) => theme.colors.text.primary};
   font-size: 1rem;
   margin-top: 80px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid ${({ theme }) => theme.colors.border + '0D'};
   min-height: 200px;
   will-change: transform;
+  transition: all ${({ theme }) => theme.transitions.default};
 `;
 
 const FooterContent = styled.div`
@@ -43,7 +43,8 @@ const FooterContent = styled.div`
 const FooterText = styled.p`
   margin: 0;
   text-align: center;
-  color: ${theme.colors.text.secondary};
+  color: ${({ theme }) => theme.colors.text.secondary};
+  transition: color ${({ theme }) => theme.transitions.default};
 `;
 
 const SocialIconsContainer = styled.div`
@@ -57,20 +58,21 @@ const SocialLink = styled(motion.a)`
   display: flex;
   align-items: center;
   gap: 8px;
-  color: ${theme.colors.text.secondary};
+  color: ${({ theme }) => theme.colors.text.secondary};
   text-decoration: none;
   font-size: 1rem;
   transition: all 0.2s ease;
   padding: 8px 16px;
   border-radius: 20px;
-  background: ${theme.colors.background};
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background: ${({ theme }) => theme.colors.background.secondary};
+  box-shadow: ${({ theme }) => theme.shadows.sm};
   will-change: transform;
   
   &:hover {
-    color: ${theme.colors.primary};
+    color: ${({ theme }) => theme.colors.primary};
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: ${({ theme }) => theme.shadows.md};
+    background: ${({ theme }) => theme.colors.background.hover};
   }
   
   svg {

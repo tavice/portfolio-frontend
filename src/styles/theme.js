@@ -1,17 +1,7 @@
-export const theme = {
-  colors: {
-    primary: '#007AFF', // Apple Blue
-    secondary: '#5856D6', // Apple Purple
-    background: '#FFFFFF',
-    surface: '#F2F2F7',
-    text: {
-      primary: '#000000',
-      secondary: '#8E8E93',
-      tertiary: '#C7C7CC'
-    },
-    success: '#34C759',
-    warning: '#FF9500',
-    error: '#FF3B30'
+const baseTheme = {
+  fonts: {
+    heading: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+    body: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
   },
   typography: {
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
@@ -53,14 +43,62 @@ export const theme = {
     lg: '1rem',
     full: '9999px'
   },
-  shadows: {
-    sm: '0 1px 2px rgba(0, 0, 0, 0.05)',
-    md: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    lg: '0 10px 15px rgba(0, 0, 0, 0.1)'
-  },
   transitions: {
     default: '0.3s ease',
     fast: '0.15s ease',
     slow: '0.5s ease'
+  }
+};
+
+export const theme = {
+  light: {
+    ...baseTheme,
+    colors: {
+      primary: '#007AFF',
+      secondary: '#5856D6',
+      background: {
+        primary: '#FFFFFF',
+        secondary: '#F2F2F7'
+      },
+      text: {
+        primary: '#000000',
+        secondary: '#8E8E93',
+        tertiary: '#C7C7CC'
+      },
+      success: '#34C759',
+      warning: '#FF9500',
+      error: '#FF3B30',
+      white: '#FFFFFF'
+    },
+    shadows: {
+      sm: '0 1px 2px rgba(0, 0, 0, 0.05)',
+      md: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      lg: '0 10px 15px rgba(0, 0, 0, 0.1)'
+    }
+  },
+  dark: {
+    ...baseTheme,
+    colors: {
+      primary: '#0A84FF',
+      secondary: '#5E5CE6',
+      background: {
+        primary: '#000000',
+        secondary: '#1C1C1E'
+      },
+      text: {
+        primary: '#FFFFFF',
+        secondary: '#EBEBF5',
+        tertiary: '#8E8E93'
+      },
+      success: '#30D158',
+      warning: '#FF9F0A',
+      error: '#FF453A',
+      white: '#FFFFFF'
+    },
+    shadows: {
+      sm: '0 1px 2px rgba(255, 255, 255, 0.05)',
+      md: '0 4px 6px rgba(255, 255, 255, 0.1)',
+      lg: '0 10px 15px rgba(255, 255, 255, 0.1)'
+    }
   }
 }; 
