@@ -10,6 +10,9 @@ Ten years running regulated, mission-critical Bay Area construction projects (K-
 - [Contact](https://thomasavice.com/contact): email contact form
 - [Resume (PDF)](https://thomasavice.com/Thomas_Avice_Resume.pdf)
 
+## Demos
+- [Job-Cost Dashboard](https://job-cost-dashboard-nine.vercel.app/): sample-data demo of a PM job-cost dashboard (Procore + email, change orders, RFIs, AI drafts). Source: https://github.com/tavice/job-cost-dashboard
+
 ## Elsewhere
 - [LinkedIn](https://www.linkedin.com/in/thomasavice)
 - [GitHub](https://github.com/tavice)
