@@ -229,6 +229,7 @@ function Contact() {
     email: '',
     subject: '',
     message: '',
+    website: '', // honeypot: hidden from people, filled in by bots
   });
   const [status, setStatus] = useState({ type: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -258,11 +259,15 @@ function Contact() {
         email: '',
         subject: '',
         message: '',
+        website: '',
       });
     } catch (error) {
       setStatus({
         type: 'error',
-        message: 'Sorry, something went wrong. Please try again later.',
+        message:
+          error?.response?.status === 429
+            ? 'Too many messages from this connection. Please try again in an hour, or email me directly.'
+            : 'Sorry, something went wrong. Please try again later.',
       });
     } finally {
       setIsSubmitting(false);
@@ -322,6 +327,23 @@ function Contact() {
         </ContactInfo>
 
         <ContactForm onSubmit={handleSubmit}>
+          {/* Honeypot: invisible to people and screen readers, bots fill it in */}
+          <div
+            aria-hidden="true"
+            style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}
+          >
+            <label htmlFor="website">Leave this field empty</label>
+            <input
+              type="text"
+              id="website"
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
+
           <FormGroup>
             <label htmlFor="name">Name</label>
             <input
