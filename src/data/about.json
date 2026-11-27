@@ -1,0 +1,36 @@
+{
+    "mainInfo": {
+        "name": "Thomas Avice",
+        "title": "Construction Project Manager & Software Builder",
+        "location": "San Francisco, CA",
+        "email": "thomasavice.ta@gmail.com",
+        "phone": "+1 415-407-3693",
+        "headshot": "https://i.ibb.co/yq4z2zj/120138049.png"
+    },
+    "tagline": "Construction project manager who builds the tools the jobsite is missing",
+    "intro": "I'm a construction project manager who builds software. I've spent ten years running regulated, mission-critical projects in the Bay Area, from schools to a hospital campus to historic renovation, and I build tools for the problems I run into along the way.",
+    "techstack": [
+        "Procore",
+        "Procore API",
+        "BIM 360 / ACC",
+        "Bluebeam",
+        "Primavera P6",
+        "MS Project",
+        "OpenSpace",
+        "React",
+        "Node.js",
+        "PostgreSQL",
+        "AWS",
+        "Python",
+        "AI workflow automation",
+        "MCP"
+    ],
+    "expertise": "On a real project the work lives in RFIs, submittals, change orders, cost reports and email threads, scattered across Procore and everyone's inbox. Most of it is manual, and it is where schedule and budget quietly get lost. Years in the field, the office and the owner meeting showed me where it breaks. I am a licensed California general contractor (Class B) with an M.S. in Civil Engineering & Engineering Project Management from UC Berkeley.",
+    "learner": "I build tools that sit on top of how projects really run: a live job-cost dashboard that pulls Procore and project email into one view, AI workflows that draft RFIs, submittals and PCOs for review, and a punch-list and inspection app for iOS and Android that grew to about 1,000 users. A demo is in Projects. The rest runs on real jobs and stays private.",
+    "connect": "Building construction tech or AI for the built world, or have a project that needs someone who understands both the jobsite and the code? I would like to hear about it.",
+    "contact": {
+        "linkedin": "https://www.linkedin.com/in/thomasavice",
+        "email": "thomasavice.ta@gmail.com",
+        "github": "https://github.com/tavice"
+    }
+}

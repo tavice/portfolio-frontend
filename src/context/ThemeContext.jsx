@@ -12,32 +12,48 @@ export const useTheme = () => {
   return context;
 };
 
+const safeGet = (key) => {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+};
+
 export const ThemeProvider = ({ children }) => {
-  const [isDark, setIsDark] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      return savedTheme === 'dark';
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+  // The server render and the first client render must match, so start with
+  // the default (dark) theme and apply the visitor's preference after mount.
+  const [isDark, setIsDark] = useState(true);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const saved = safeGet('theme');
+    if (saved) {
+      setIsDark(saved === 'dark');
+    } else {
+      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
+    }
+    setReady(true);
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
-      if (!localStorage.getItem('theme')) {
+      if (!safeGet('theme')) {
         setIsDark(e.matches);
       }
     };
-
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   useEffect(() => {
-    // Update localStorage
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    if (!ready) return;
 
-    // Update meta theme-color
+    try {
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    } catch {
+      // storage unavailable; the theme just won't persist
+    }
+
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
       metaThemeColor.setAttribute(
@@ -46,7 +62,6 @@ export const ThemeProvider = ({ children }) => {
       );
     }
 
-    // Update body background and text color
     document.body.style.backgroundColor = isDark
       ? theme.dark.colors.background.primary
       : theme.light.colors.background.primary;
@@ -54,9 +69,8 @@ export const ThemeProvider = ({ children }) => {
       ? theme.dark.colors.text.primary
       : theme.light.colors.text.primary;
 
-    // Update class on html element
     document.documentElement.classList.toggle('dark-mode', isDark);
-  }, [isDark]);
+  }, [isDark, ready]);
 
   const toggleTheme = () => {
     setIsDark((prev) => !prev);
@@ -73,4 +87,4 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-export default ThemeContext; 
+export default ThemeContext;

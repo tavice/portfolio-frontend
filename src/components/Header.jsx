@@ -52,7 +52,7 @@ const LogoIcon = styled(motion.img)`
   box-shadow: ${({ theme }) => theme.shadows.sm};
 `;
 
-const Title = styled(motion.h1)`
+const Title = styled(motion.span)`
   font-size: 1.5rem;
   font-weight: 600;
   margin: 0;
@@ -213,7 +213,7 @@ const Header = () => {
         $isScrolled={isScrolled}
       >
         <Logo to="/">
-          <LogoIcon src={logo} alt="Logo" />
+          <LogoIcon src={logo} alt="Thomas Avice logo" />
           <Title>Thomas Avice</Title>
         </Logo>
         
