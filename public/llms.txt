@@ -1,0 +1,15 @@
+# Thomas Avice
+
+> Construction project manager who builds software and AI workflows for the jobsite. Based in San Francisco, CA.
+
+Ten years running regulated, mission-critical Bay Area construction projects (K-12 schools, healthcare, historic renovation). Licensed California general contractor (Class B), OSHA 30, M.S. Civil Engineering & Engineering Project Management (UC Berkeley). Builds tools for RFIs, submittals, change orders, job-cost tracking, Procore integrations and AI-assisted drafting.
+
+## Pages
+- [Home / About](https://thomasavice.com/): positioning, tools and tech, background
+- [Projects](https://thomasavice.com/projects): construction-technology projects and demos
+- [Contact](https://thomasavice.com/contact): email contact form
+- [Resume (PDF)](https://thomasavice.com/Thomas_Avice_Resume.pdf)
+
+## Elsewhere
+- [LinkedIn](https://www.linkedin.com/in/thomasavice)
+- [GitHub](https://github.com/tavice)

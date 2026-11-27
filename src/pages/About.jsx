@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaCode } from 'react-icons/fa';
-import { getAbout } from '../services/api';
+import { FaGithub, FaLinkedin, FaEnvelope, FaCode, FaFileAlt } from 'react-icons/fa';
+import about from '../data/about.json';
 import { useTheme } from '../context/ThemeContext';
 
 const Container = styled(motion.div)`
@@ -198,64 +198,14 @@ const CTAButton = styled(motion.a)`
 `;
 
 function About() {
-  const [about, setAbout] = useState({
-    mainInfo: {
-      name: '',
-      title: '',
-      email: '',
-      headshot: ''
-    },
-    contact: {
-      github: '',
-      linkedin: ''
-    },
-    intro: '',
-    techstack: [],
-    expertise: '',
-    learner: '',
-    connect: ''
-  });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
   const { isDark } = useTheme();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getAbout();
-        setAbout(data || about);
-        setError(null);
-      } catch (error) {
-        console.error('Error fetching about data:', error);
-        setError('Failed to load data. Please try again later.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (error) {
-    return (
-      <Container
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div style={{ textAlign: 'center', padding: '40px 0' }}>
-          <p>{error}</p>
-        </div>
-      </Container>
-    );
-  }
 
   const { mainInfo, contact, intro, techstack, expertise, learner, connect } = about;
 
   return (
     <Container
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: isLoading ? 0 : 1, y: isLoading ? 20 : 0 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
       data-theme={isDark ? 'dark' : 'light'}
     >
@@ -281,6 +231,9 @@ function About() {
               <FaLinkedin /> LinkedIn
             </a>
           )}
+          <a href="/Thomas_Avice_Resume.pdf" target="_blank" rel="noopener noreferrer">
+            <FaFileAlt /> Resume
+          </a>
         </ContactInfo>
       </Header>
 
@@ -290,7 +243,7 @@ function About() {
 
       {techstack && techstack.length > 0 && (
         <Section>
-          <h2>Tech Stack</h2>
+          <h2>Tools &amp; Tech</h2>
           <TechStack>
             {techstack.map((tech, index) => (
               <TechItem
@@ -307,14 +260,14 @@ function About() {
 
       {expertise && (
         <Section>
-          <h2>Expertise</h2>
+          <h2>Where I'm Coming From</h2>
           <Statement>{expertise}</Statement>
         </Section>
       )}
 
       {learner && (
         <Section>
-          <h2>Always Learning</h2>
+          <h2>What I Build</h2>
           <Statement>{learner}</Statement>
         </Section>
       )}

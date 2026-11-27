@@ -1,0 +1,39 @@
+[
+    {
+        "name": "Construction Analytics",
+        "description": "Dashboard that turns construction job-status data into completion tracking, trend projections and anomaly detection. Demo runs on sample data.",
+        "website": "https://job-status-analyzer-frontend.vercel.app/demo",
+        "github": "https://github.com/tavice",
+        "image": "/images/construction-analytics.jpg",
+        "tech": [
+            "React",
+            "FastAPI",
+            "PostgreSQL",
+            "Chart.js"
+        ]
+    },
+    {
+        "name": "Maison Poppy",
+        "description": "Brand and online shop for a San Francisco interior design, remodeling, candles and events studio.",
+        "website": "https://www.maisondepoppy.com/",
+        "image": "/images/maison-poppy.jpg",
+        "tech": [
+            "React",
+            "Styled Components",
+            "Framer Motion",
+            "Node.js"
+        ]
+    },
+    {
+        "name": "MyJobSearch.com",
+        "description": "Full-stack job board connecting job seekers and employers, built end to end on my own.",
+        "website": "https://astonishing-cannoli-1faecf.netlify.app/Home",
+        "github": "https://github.com/tavice/jobposting-frontend",
+        "image": "https://imgur.com/fwGefsl.png",
+        "tech": [
+            "React",
+            "Django",
+            "PostgreSQL"
+        ]
+    }
+]

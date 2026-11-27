@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaGithub, FaGlobe } from 'react-icons/fa';
-import { getProjects } from '../services/api';
+import projectsData from '../data/projects.json';
 import { useTheme } from '../context/ThemeContext';
 
 const ProjectsContainer = styled.div`
@@ -182,33 +182,14 @@ const itemVariants = {
 };
 
 function Projects() {
-  const [projects, setProjects] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const { isDark } = useTheme();
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const data = await getProjects();
-        setProjects(data || []);
-        setError(null);
-      } catch (error) {
-        console.error('Error fetching projects:', error);
-        setError('Failed to load projects. Please try again later.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
+  const projects = projectsData;
+  const error = null;
 
   return (
     <ProjectsContainer
       as={motion.div}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: isLoading ? 0 : 1, y: isLoading ? 20 : 0 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
     >
       <Header>
@@ -227,7 +208,7 @@ function Projects() {
               key={project._id || index}
               variants={itemVariants}
               initial="hidden"
-              animate={isLoading ? "hidden" : "visible"}
+              animate="visible"
               custom={index}
             >
               <ProjectImage src={project.image} alt={project.name} />
@@ -240,14 +221,16 @@ function Projects() {
                   ))}
                 </TechStack>
                 <ProjectLinks>
-                  <ProjectLink
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <FaGithub />
-                    GitHub
-                  </ProjectLink>
+                  {project.github && (
+                    <ProjectLink
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FaGithub />
+                      GitHub
+                    </ProjectLink>
+                  )}
                   {project.website && (
                     <ProjectLink
                       href={project.website}
