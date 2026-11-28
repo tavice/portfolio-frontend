@@ -33,7 +33,7 @@
         "construction": ["Procore", "BIM 360 / ACC", "Bluebeam", "Primavera P6", "MS Project", "OpenSpace"],
         "software": ["React", "Node.js", "Python", "PostgreSQL", "AWS", "Procore API", "MCP", "AI workflow automation"]
     },
-    "connect": "Building software for construction, or need someone who understands both the jobsite and the code? Send a question the way the job would: as an RFI.",
+    "connect": "Building software for construction, or need someone who understands both the jobsite and the code? Send me a question. On a project, a formal question like this is called an RFI, a request for information.",
     "contact": {
         "linkedin": "https://www.linkedin.com/in/thomasavice",
         "email": "thomasavice.ta@gmail.com",

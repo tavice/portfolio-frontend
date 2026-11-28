@@ -6,7 +6,7 @@ const P = { pathLength: 1 };
 
 // Revision cloud around a rectangle: a chain of outward-bulging arcs,
 // traversed clockwise so sweep-flag 1 always bulges outward.
-function cloudPath(x, y, w, h, step = 22) {
+export function cloudPath(x, y, w, h, step = 22) {
   const corners = [
     [x, y],
     [x + w, y],

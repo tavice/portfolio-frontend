@@ -4,6 +4,7 @@ import projects from '../data/projects.json';
 import BuildingSection from '../components/BuildingSection';
 import DrawingTitle from '../components/DrawingTitle';
 import RfiForm from '../components/RfiForm';
+import Legend from '../components/Legend';
 
 // Projects with a screenshot get a detail on A-501; the rest live only in the schedule.
 const detailed = projects.filter((p) => p.image);
@@ -73,6 +74,7 @@ function Cover() {
       <p className="drawing-caption">
         Building section, two-story school. The red clouds are my markups. Select one to highlight its note.
       </p>
+      <Legend />
 
       <ol className={`markup-notes${active ? ' has-active' : ''}`} aria-label="Markups">
         {markups.map((m, i) => (

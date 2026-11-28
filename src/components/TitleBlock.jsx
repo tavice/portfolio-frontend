@@ -51,9 +51,6 @@ export default function TitleBlock({ current }) {
           <li>
             <a href={contact.github} target="_blank" rel="noopener noreferrer">GitHub</a>
           </li>
-          <li>
-            <a href={mainInfo.resume}>Resume (PDF)</a>
-          </li>
         </ul>
       </div>
 
@@ -71,7 +68,7 @@ export default function TitleBlock({ current }) {
         </ol>
       </nav>
 
-      <div className="tb-cell">
+      <div className="tb-cell tb-print">
         <p className="tb-k" id="print-label">Print</p>
         <div className="print" role="group" aria-labelledby="print-label">
           <button type="button" aria-pressed={print === 'light'} onClick={() => choose('light')}>
