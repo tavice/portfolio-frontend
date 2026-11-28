@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import about from '../data/about.json';
-import SheetLabel from '../components/SheetLabel';
-import { ArrowRight, ArrowUpRight, Download, Mail } from '../components/Icons';
 
 const API_URL = import.meta.env.REACT_APP_RENDER_URL || 'http://localhost:10000';
 
@@ -30,7 +28,7 @@ export default function Contact() {
         err.status = res.status;
         throw err;
       }
-      setStatus({ ok: true, text: 'Thanks, your message is on its way. I will get back to you soon.' });
+      setStatus({ ok: true, text: 'Thanks, your message was sent. I will get back to you soon.' });
       setForm(EMPTY);
     } catch (err) {
       setStatus({
@@ -38,7 +36,7 @@ export default function Contact() {
         text:
           err.status === 429
             ? 'Too many messages from this connection. Please try again in an hour, or email me directly.'
-            : `Something went wrong sending that. You can email me directly at ${contact.email}.`,
+            : `That didn't go through. You can email me directly at ${contact.email}.`,
       });
     } finally {
       setSending(false);
@@ -47,60 +45,26 @@ export default function Contact() {
 
   return (
     <>
-      <header className="page-head">
-        <div className="wrap">
-          <SheetLabel no="A-400">Contact</SheetLabel>
-          <h1 className="h-display">
-            Let's <em>talk.</em>
+      <section className="page-title wrap">
+        <div className="grid">
+          <h1>
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
           </h1>
-          <p className="lead">{connect}</p>
-        </div>
-      </header>
-
-      <section className="sheet" style={{ paddingTop: 0, borderBottom: 0 }}>
-        <div className="wrap contact-grid" style={{ marginTop: 0 }}>
-          <div>
-            <ul className="direct">
-              <li>
-                <a href={`mailto:${contact.email}`}>
-                  <span className="mono">Email</span>
-                  <span className="val">{contact.email}</span>
-                  <Mail />
-                </a>
-              </li>
-              <li>
-                <a href={contact.linkedin} target="_blank" rel="noopener noreferrer">
-                  <span className="mono">LinkedIn</span>
-                  <span className="val">in/thomasavice</span>
-                  <ArrowUpRight />
-                </a>
-              </li>
-              <li>
-                <a href={contact.github} target="_blank" rel="noopener noreferrer">
-                  <span className="mono">GitHub</span>
-                  <span className="val">tavice</span>
-                  <ArrowUpRight />
-                </a>
-              </li>
-              <li>
-                <a href={mainInfo.resume}>
-                  <span className="mono">Resume</span>
-                  <span className="val">PDF</span>
-                  <Download />
-                </a>
-              </li>
-            </ul>
-            <p className="mono" style={{ color: 'var(--ink-3)', marginTop: 24 }}>
-              Based in {mainInfo.location}
-            </p>
+          <p>{connect}</p>
+          <div className="contact-links">
+            <a href={contact.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            <a href={contact.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <a href={mainInfo.resume}>Resume (PDF)</a>
           </div>
+        </div>
+      </section>
 
+      <section className="wrap">
+        <div className="section-head">
+          <h2>Or write here</h2>
+        </div>
+        <div className="grid">
           <form className="form" onSubmit={onSubmit}>
-            <div className="form-head mono">
-              <span>Transmittal</span>
-              <span>To: T. Avice</span>
-            </div>
-
             {/* Honeypot: hidden from people and screen readers, bots fill it in */}
             <div className="hp" aria-hidden="true">
               <label htmlFor="website">Leave this field empty</label>
@@ -142,11 +106,9 @@ export default function Contact() {
               <textarea id="message" name="message" value={form.message} onChange={onChange} required />
             </div>
 
-            <div>
-              <button className="btn btn-primary" type="submit" disabled={sending}>
-                {sending ? 'Sending…' : 'Send message'} {!sending && <ArrowRight />}
-              </button>
-            </div>
+            <button className="button" type="submit" disabled={sending}>
+              {sending ? 'Sending…' : 'Send'}
+            </button>
 
             {status && (
               <p className={`form-status ${status.ok ? 'ok' : 'err'}`} role="status">

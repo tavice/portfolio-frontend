@@ -8,39 +8,23 @@ import Contact from './pages/Contact';
 import { PAGE_META } from './pageMeta';
 
 // Keeps the tab title, description and canonical in sync on client-side
-// navigation, scrolls to the top, and fades sections in as they scroll into
-// view. (The pre-rendered HTML already has the right tags for first load.)
+// navigation, and scrolls to the top (or to #anchor) on route change.
+// (The pre-rendered HTML already has the right tags for first load.)
 function RouteEffects() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
 
   useEffect(() => {
     const meta = PAGE_META[pathname] || PAGE_META['/'];
     document.title = meta.title;
     document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', meta.canonical);
-    window.scrollTo(0, 0);
   }, [pathname]);
 
   useEffect(() => {
-    const els = document.querySelectorAll('.reveal:not(.in)');
-    if (!('IntersectionObserver' in window)) {
-      els.forEach((el) => el.classList.add('in'));
-      return undefined;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in');
-            io.unobserve(entry.target);
-          }
-        });
-      },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, [pathname]);
+    const target = hash && document.getElementById(hash.slice(1));
+    if (target) target.scrollIntoView();
+    else window.scrollTo(0, 0);
+  }, [pathname, hash]);
 
   return null;
 }

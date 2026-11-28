@@ -1,104 +1,77 @@
-import { Link } from 'react-router-dom';
 import projects from '../data/projects.json';
-import SheetLabel from '../components/SheetLabel';
-import { FeaturedProject } from '../components/ProjectIndex';
-import { ArrowRight, ArrowUpRight } from '../components/Icons';
 
-function ProjectCard({ project }) {
-  const isPrivate = !project.website && !project.github;
+function Entry({ project, no }) {
+  const { name, category, status, website, github, image, description, tech } = project;
   return (
-    <article className="card reveal">
-      {project.image ? (
-        <div className="card-shot">
-          <img src={project.image} alt={`${project.name} screenshot`} loading="lazy" />
-        </div>
-      ) : (
-        <div className="card-shot placeholder">
-          <span className="mono">{isPrivate ? 'Private · runs on real jobs' : 'No preview'}</span>
-        </div>
-      )}
-      <div className="card-body">
-        <span className="mono" style={{ color: 'var(--ink-3)' }}>
-          {project.kind}
-        </span>
-        <h3>{project.name}</h3>
-        <p>{project.description}</p>
-        <ul className="tags">
-          {project.tech.map((t) => (
-            <li key={t}>{t}</li>
-          ))}
-        </ul>
-        {!isPrivate && (
-          <div className="actions">
-            {project.website && (
-              <a className="text-link" href={project.website} target="_blank" rel="noopener noreferrer">
-                Live <ArrowUpRight />
-              </a>
-            )}
-            {project.github && (
-              <a className="text-link" href={project.github} target="_blank" rel="noopener noreferrer">
-                Code <ArrowUpRight />
-              </a>
-            )}
+    <article className="entry grid" id={project.slug}>
+      <div className="entry-meta">
+        <h2>
+          <span className="muted">{String(no).padStart(2, '0')}</span>&ensp;{name}
+        </h2>
+        <dl>
+          <div>
+            <dt>Type</dt>
+            <dd>{category}</dd>
           </div>
+          <div>
+            <dt>Status</dt>
+            <dd>{status}</dd>
+          </div>
+          <div>
+            <dt>Stack</dt>
+            <dd>{tech.join(', ')}</dd>
+          </div>
+          {(website || github) && (
+            <div>
+              <dt>Links</dt>
+              <dd>
+                {website && (
+                  <a href={website} target="_blank" rel="noopener noreferrer">
+                    {status === 'Demo' ? 'Demo' : 'Site'} ↗
+                  </a>
+                )}
+                {website && github && ', '}
+                {github && (
+                  <a href={github} target="_blank" rel="noopener noreferrer">
+                    Code ↗
+                  </a>
+                )}
+              </dd>
+            </div>
+          )}
+        </dl>
+      </div>
+      <div className="entry-body">
+        {image && (
+          <a href={website} target="_blank" rel="noopener noreferrer" aria-label={`Open ${name}`}>
+            <div className="shot-img">
+              <img src={image} alt={`Screenshot of ${name}`} loading="lazy" />
+            </div>
+          </a>
         )}
+        <p>{description}</p>
       </div>
     </article>
   );
 }
 
 export default function Projects() {
-  const featured = projects.find((p) => p.featured);
-  const construction = projects.filter((p) => !p.featured && p.kind !== 'Web');
-  const web = projects.filter((p) => p.kind === 'Web');
-
   return (
     <>
-      <header className="page-head">
-        <div className="wrap">
-          <SheetLabel no="A-200">Work</SheetLabel>
-          <h1 className="h-display">
-            Tools for the <em>jobsite.</em>
-          </h1>
-          <p className="lead">
-            Most of what I build runs on real projects and stays private. What is public runs on
-            fictional sample data, so you can click through everything.
+      <section className="page-title wrap">
+        <div className="grid">
+          <h1>Work</h1>
+          <p>
+            Most of what I build runs on real projects and stays private. The public demos use
+            fictional sample data, so everything in them can be clicked.
           </p>
         </div>
-      </header>
-
-      <section className="sheet" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          {featured && <FeaturedProject project={featured} />}
-
-          <div style={{ marginTop: 72 }}>
-            <SheetLabel no="A-201">Construction tech</SheetLabel>
-            <div className="cards">
-              {construction.map((p) => (
-                <ProjectCard key={p.slug} project={p} />
-              ))}
-            </div>
-          </div>
-
-          <div style={{ marginTop: 72 }}>
-            <SheetLabel no="A-202">Web</SheetLabel>
-            <div className="cards">
-              {web.map((p) => (
-                <ProjectCard key={p.slug} project={p} />
-              ))}
-            </div>
-          </div>
-
-          <div className="work-head" style={{ marginTop: 72, marginBottom: 0 }}>
-            <h2 className="h2" style={{ margin: 0 }}>
-              Want to see the private work?
-            </h2>
-            <Link className="btn btn-primary" to="/contact">
-              Get in touch <ArrowRight />
-            </Link>
-          </div>
-        </div>
       </section>
+      <div className="wrap">
+        {projects.map((p, i) => (
+          <Entry key={p.slug} project={p} no={i + 1} />
+        ))}
+      </div>
     </>
   );
 }

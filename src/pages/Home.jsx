@@ -1,191 +1,105 @@
 import { Link } from 'react-router-dom';
 import about from '../data/about.json';
 import projects from '../data/projects.json';
-import SheetLabel from '../components/SheetLabel';
-import ProjectIndex, { FeaturedProject } from '../components/ProjectIndex';
-import { ArrowRight, ArrowUpRight, Download, Mail } from '../components/Icons';
+import ProjectTable from '../components/ProjectTable';
+
+function Shot({ project, size }) {
+  return (
+    <figure className={`shot ${size}`}>
+      <a href={project.website} target="_blank" rel="noopener noreferrer">
+        <div className="shot-img">
+          <img src={project.image} alt={`Screenshot of ${project.name}`} loading="lazy" />
+        </div>
+        <figcaption>
+          <span className="name">{project.name}</span>
+          <span className="muted">
+            {project.category}, {project.status.toLowerCase()} ↗
+          </span>
+          <span className="summary">{project.summary}</span>
+        </figcaption>
+      </a>
+    </figure>
+  );
+}
 
 export default function Home() {
-  const { mainInfo, headline, headlineAccent, intro, titleBlock, problem, approach, background, toolbox, connect, contact } =
-    about;
-  const featured = projects.find((p) => p.featured);
-  const others = projects.filter((p) => !p.featured).slice(0, 4);
+  const { mainInfo, intro, facts, about: paragraphs, toolbox, connect, contact } = about;
+  const [lead, ...pair] = projects.filter((p) => p.image);
 
   return (
     <>
-      {/* ---------- Hero ---------- */}
-      <section className="hero">
-        <div className="wrap hero-grid">
-          <div>
-            <p className="hero-kicker mono rise">
-              <span className="status-dot" aria-hidden="true" />
-              {mainInfo.title}
-            </p>
-            <h1 className="h-display rise">
-              {headline} <em>{headlineAccent}</em>
-            </h1>
-            <p className="lead rise">{intro}</p>
-            <div className="hero-actions rise">
-              <Link className="btn btn-primary" to="/projects">
-                See the work <ArrowRight />
-              </Link>
-              <a className="btn btn-ghost" href={mainInfo.resume}>
-                Resume <Download />
-              </a>
-            </div>
-          </div>
-
-          <aside className="title-block" aria-label="Summary">
-            <div className="tb-head">
-              <div>
-                <span className="tb-k">Prepared by</span>
-                <span className="tb-name">{mainInfo.name}</span>
-              </div>
-              <div>
-                <span className="tb-k">Sheet</span>
-                <span className="tb-sheet">A-001</span>
-              </div>
-            </div>
-            <div className="tb-photo">
-              <img src={mainInfo.headshot} alt={`Portrait of ${mainInfo.name}`} width="96" height="96" />
-              <p>Project manager by trade. Software builder by habit.</p>
-            </div>
-            <dl className="tb-rows">
-              {titleBlock.map((row) => (
-                <div className="tb-row" key={row.label}>
-                  <dt>{row.label}</dt>
-                  <dd>{row.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </aside>
+      <section className="intro wrap">
+        <div className="grid">
+          <h1>{intro}</h1>
         </div>
       </section>
 
-      {/* ---------- Problem / approach ---------- */}
-      <section className="sheet" id="approach">
-        <div className="wrap">
-          <SheetLabel no="A-101">The problem, and how I work on it</SheetLabel>
-          <div className="split">
-            <div className="reveal">
-              <h2 className="h2">{problem.title}</h2>
-              <p>{problem.body}</p>
-              <ul className="chips" aria-label="Where the work lives">
-                {problem.sources.map((s) => (
-                  <li className="chip" key={s}>
-                    {s}
-                  </li>
-                ))}
-              </ul>
+      <div className="wrap">
+        <dl className="facts grid">
+          {facts.map((f) => (
+            <div key={f.label}>
+              <dt>{f.label}</dt>
+              <dd>{f.value}</dd>
             </div>
-            <div className="reveal">
-              <h2 className="h2">{approach.title}</h2>
-              <p>{approach.body}</p>
-            </div>
-          </div>
+          ))}
+        </dl>
+      </div>
 
-          <ol className="flow reveal" aria-label="How the workflow runs">
-            {approach.steps.map((step) => (
-              <li key={step.name} className={step.name === 'Review' ? 'is-human' : undefined}>
-                <span className="flow-n" />
-                <h3>{step.name}</h3>
-                <p>{step.detail}</p>
-                {step.name === 'Review' && <span className="flow-tag">Human in the loop</span>}
-              </li>
+      <section className="section wrap" id="work">
+        <div className="section-head">
+          <h2>Selected work</h2>
+          <Link to="/projects">All projects</Link>
+        </div>
+        <div className="grid shots">
+          <Shot project={lead} size="wide" />
+          {pair.slice(0, 2).map((p) => (
+            <Shot key={p.slug} project={p} size="half" />
+          ))}
+        </div>
+        <ProjectTable projects={projects} />
+      </section>
+
+      <section className="section wrap" id="about">
+        <div className="section-head">
+          <h2>About</h2>
+          <a href={mainInfo.resume}>Resume (PDF)</a>
+        </div>
+        <div className="grid">
+          <figure className="about-photo">
+            <img src={mainInfo.headshot} alt={`Portrait of ${mainInfo.name}`} width="604" height="654" loading="lazy" />
+            <figcaption className="small muted">{mainInfo.location}</figcaption>
+          </figure>
+          <div className="about-text">
+            {paragraphs.map((p) => (
+              <p key={p.slice(0, 24)}>{p}</p>
             ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* ---------- Work ---------- */}
-      <section className="sheet" id="work">
-        <div className="wrap">
-          <SheetLabel no="A-201">Selected work</SheetLabel>
-          <div className="work-head">
-            <h2 className="h2">Things I have built for the jobsite, and a few for the web.</h2>
-            <Link className="text-link" to="/projects">
-              All projects <ArrowRight />
-            </Link>
-          </div>
-          {featured && <FeaturedProject project={featured} />}
-          <ProjectIndex projects={others} startAt={2} />
-        </div>
-      </section>
-
-      {/* ---------- Background ---------- */}
-      <section className="sheet" id="background">
-        <div className="wrap bg-grid">
-          <div className="reveal">
-            <SheetLabel no="A-301">Background</SheetLabel>
-            <h2 className="h2">A builder first. The code came from the job.</h2>
-            <p className="lead" style={{ fontSize: '1.02rem' }}>
-              I learned where projects break by running them. That is why the tools I write start
-              from the RFI log and the cost report, not from a blank screen.
-            </p>
-          </div>
-          <div className="reveal">
-            <dl className="spec">
-              {background.map((b) => (
-                <div key={b.kind}>
-                  <dt>{b.kind}</dt>
-                  <dd>{b.value}</dd>
-                </div>
-              ))}
-            </dl>
-            <div className="toolbox">
+            <div className="grid tools">
               <div>
-                <h3 className="mono">On the job</h3>
-                <ul>
-                  {toolbox.construction.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
+                <h3>On the job</h3>
+                <p>{toolbox.construction.join(', ')}</p>
               </div>
               <div>
-                <h3 className="mono">In the code</h3>
-                <ul>
-                  {toolbox.software.map((t) => (
-                    <li key={t}>{t}</li>
-                  ))}
-                </ul>
+                <h3>In code</h3>
+                <p>{toolbox.software.join(', ')}</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ---------- Contact CTA ---------- */}
-      <section className="sheet" id="contact" style={{ borderBottom: 0 }}>
-        <div className="wrap">
-          <SheetLabel no="A-401">Contact</SheetLabel>
-          <h2 className="h-display contact-cta reveal">
-            Building for the <em>built world?</em>
-          </h2>
-          <div className="contact-grid">
-            <p className="lead reveal">{connect}</p>
-            <ul className="direct reveal">
-              <li>
-                <a href={`mailto:${contact.email}`}>
-                  <span className="mono">Email</span>
-                  <span className="val">{contact.email}</span>
-                  <Mail />
-                </a>
-              </li>
-              <li>
-                <a href={contact.linkedin} target="_blank" rel="noopener noreferrer">
-                  <span className="mono">LinkedIn</span>
-                  <span className="val">in/thomasavice</span>
-                  <ArrowUpRight />
-                </a>
-              </li>
-              <li>
-                <Link to="/contact">
-                  <span className="mono">Message</span>
-                  <span className="val">Send a note from the site</span>
-                  <ArrowRight />
-                </Link>
-              </li>
-            </ul>
+      <section className="section wrap" id="contact">
+        <div className="section-head">
+          <h2>Contact</h2>
+        </div>
+        <div className="grid">
+          <p className="contact-big">
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          </p>
+          <p className="contact-note">{connect}</p>
+          <div className="contact-links">
+            <a href={contact.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+            <a href={contact.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+            <Link to="/contact">Contact form</Link>
           </div>
         </div>
       </section>
