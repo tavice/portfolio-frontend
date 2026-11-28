@@ -1,29 +1,30 @@
 {
     "mainInfo": {
         "name": "Thomas Avice",
-        "title": "Construction Project Manager",
+        "title": "Construction project manager",
         "location": "San Francisco, CA",
         "email": "thomasavice.ta@gmail.com",
         "headshot": "/profile_picture.png",
         "resume": "/Thomas_Avice_Resume.pdf"
     },
-    "intro": "I'm Thomas Avice, a construction project manager in San Francisco. I also write software for the problems I run into on the job.",
-    "facts": [
-        { "label": "Experience", "value": "10 years in construction" },
-        { "label": "License", "value": "California GC, Class B" },
-        { "label": "Education", "value": "M.S., UC Berkeley" },
-        { "label": "Safety", "value": "OSHA 30" }
+    "lede": "Construction project manager in San Francisco. I run projects, and I write the software they're missing.",
+    "markups": [
+        "Ten years running regulated projects in the Bay Area: schools, a hospital campus and historic renovation. In the field, in the office and in owner meetings.",
+        "Duct hits beam. On a real job that becomes an RFI, maybe a change order, and a thread split across Procore and five inboxes. I build tools that track it and draft the paperwork for a person to review.",
+        "Licensed California general contractor (Class B), OSHA 30, and an M.S. in Civil Engineering & Engineering Project Management from UC Berkeley."
     ],
-    "about": [
+    "notes": [
         "I've spent ten years on regulated projects in the Bay Area: schools, a hospital campus and historic renovation. I've worked in the field, in the office and in owner meetings.",
-        "Most of a PM's day goes into RFIs, submittals, change orders, cost reports and email, spread across Procore and a dozen inboxes. A lot of it is copy and paste. I build tools that pull that information into one place and use AI to write first drafts, which a person reviews before anything goes out.",
-        "I'm a licensed California general contractor (Class B) and have an M.S. in Civil Engineering & Engineering Project Management from UC Berkeley."
+        "Most of a PM's day goes into RFIs, submittals, change orders, cost reports and email, spread across Procore and a dozen inboxes. A lot of it is copy and paste.",
+        "I build tools that pull that information into one place and use AI to write first drafts. A person reviews every draft before it goes out.",
+        "Most of what I build runs on live projects and is not public. The demos on this site use fictional sample data. Ask if you'd like a walkthrough of the rest.",
+        "I'm a licensed California general contractor (Class B) with an M.S. in Civil Engineering & Engineering Project Management from UC Berkeley."
     ],
     "toolbox": {
         "construction": ["Procore", "BIM 360 / ACC", "Bluebeam", "Primavera P6", "MS Project", "OpenSpace"],
         "software": ["React", "Node.js", "Python", "PostgreSQL", "AWS", "Procore API", "MCP", "AI workflow automation"]
     },
-    "connect": "If you're building software for construction, or you need someone who understands both the jobsite and the code, send me an email.",
+    "connect": "Building software for construction, or need someone who understands both the jobsite and the code? Send a question the way the job would: as an RFI.",
     "contact": {
         "linkedin": "https://www.linkedin.com/in/thomasavice",
         "email": "thomasavice.ta@gmail.com",

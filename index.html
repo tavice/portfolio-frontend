@@ -5,6 +5,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
+  <!-- Apply the saved print (blueline / blueprint) before first paint -->
+  <script>
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+
   <title>Thomas Avice - Construction Project Manager &amp; Software Builder</title>
   <meta name="description"
     content="Construction project manager who builds software and AI workflows for the jobsite: ten years running regulated Bay Area projects, plus tools for RFIs, submittals, cost tracking and Procore." />
@@ -12,8 +20,8 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://thomasavice.com/" />
 
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#0c0c0c" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#f5f7fb" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0e2a57" media="(prefers-color-scheme: dark)" />
   <link rel="icon" href="/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
@@ -22,7 +30,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&display=swap" />
+    href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
