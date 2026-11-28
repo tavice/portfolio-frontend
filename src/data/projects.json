@@ -1,52 +1,60 @@
 [
     {
+        "slug": "job-cost-dashboard",
         "name": "Job-Cost Dashboard",
-        "description": "Live job-cost view for a PM: budget vs committed vs forecast, change-order pipeline, RFI and submittal aging, a Procore and email sync feed, and AI-drafted RFIs and PCOs for review. Demo runs on sample data.",
+        "kind": "Construction tech",
+        "featured": true,
+        "summary": "A live job-cost view for a project manager.",
+        "description": "Budget vs committed vs forecast, the change-order pipeline, RFI and submittal aging, a Procore and email sync feed, and AI-drafted RFIs and PCOs waiting for review. Everything a PM checks every morning, on one screen. The demo runs on fictional sample data.",
         "website": "https://job-cost-dashboard-nine.vercel.app/",
         "github": "https://github.com/tavice/job-cost-dashboard",
         "image": "/images/job-cost-dashboard.jpg",
-        "tech": [
-            "React",
-            "Recharts",
-            "Procore",
-            "AI workflows"
-        ]
+        "tech": ["React", "Recharts", "Procore", "AI workflows"]
     },
     {
+        "slug": "construction-analytics",
         "name": "Construction Analytics",
-        "description": "Dashboard that turns construction job-status data into completion tracking, trend projections and anomaly detection. Demo runs on sample data.",
+        "kind": "Construction tech",
+        "summary": "Job-status data turned into completion tracking, trend projections and anomaly detection.",
+        "description": "Dashboard that turns construction job-status data into completion tracking, trend projections and anomaly detection. The demo runs on sample data.",
         "website": "https://job-status-analyzer-frontend.vercel.app/demo",
-        "github": "https://github.com/tavice",
         "image": "/images/construction-analytics.jpg",
-        "tech": [
-            "React",
-            "FastAPI",
-            "PostgreSQL",
-            "Chart.js"
-        ]
+        "tech": ["React", "FastAPI", "PostgreSQL", "Chart.js"]
     },
     {
+        "slug": "ai-drafting",
+        "name": "AI drafting workflows",
+        "kind": "Private, in use on real jobs",
+        "summary": "First drafts of RFIs, submittals and PCOs, reviewed by a PM before they go out.",
+        "description": "AI workflows that draft RFIs, submittals and PCOs and hand them to a person for review. They run on real projects, so the code and output stay private.",
+        "tech": ["Procore API", "MCP", "AI workflows"]
+    },
+    {
+        "slug": "punch-list-app",
+        "name": "Punch-list & inspection app",
+        "kind": "Private",
+        "summary": "Punch-list and inspection app for iOS and Android that grew to about 1,000 users.",
+        "description": "Punch-list and inspection app for iOS and Android that grew to about 1,000 users.",
+        "tech": ["iOS", "Android"]
+    },
+    {
+        "slug": "maison-poppy",
         "name": "Maison Poppy",
+        "kind": "Web",
+        "summary": "Brand site and shop for a San Francisco interior design and remodeling studio.",
         "description": "Brand and online shop for a San Francisco interior design, remodeling, candles and events studio.",
         "website": "https://www.maisondepoppy.com/",
         "image": "/images/maison-poppy.jpg",
-        "tech": [
-            "React",
-            "Styled Components",
-            "Framer Motion",
-            "Node.js"
-        ]
+        "tech": ["React", "Node.js"]
     },
     {
-        "name": "MyJobSearch.com",
+        "slug": "myjobsearch",
+        "name": "MyJobSearch",
+        "kind": "Web",
+        "summary": "Full-stack job board connecting job seekers and employers, built end to end.",
         "description": "Full-stack job board connecting job seekers and employers, built end to end on my own.",
         "website": "https://astonishing-cannoli-1faecf.netlify.app/Home",
         "github": "https://github.com/tavice/jobposting-frontend",
-        "image": "https://imgur.com/fwGefsl.png",
-        "tech": [
-            "React",
-            "Django",
-            "PostgreSQL"
-        ]
+        "tech": ["React", "Django", "PostgreSQL"]
     }
 ]

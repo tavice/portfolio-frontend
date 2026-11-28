@@ -1,27 +1,19 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
-import { ServerStyleSheet } from 'styled-components';
 import App from './App';
 
 export { PAGE_META } from './pageMeta';
 
-// Renders one route to an HTML string plus the styled-components CSS it needs.
+// Renders one route to an HTML string. Styles are plain CSS, which Vite
+// already links from dist/index.html, so nothing else needs injecting.
 export function render(url) {
-  const sheet = new ServerStyleSheet();
-  try {
-    const html = renderToString(
-      sheet.collectStyles(
-        <React.StrictMode>
-          <StaticRouter location={url}>
-            <App />
-          </StaticRouter>
-        </React.StrictMode>
-      )
-    );
-    const styles = sheet.getStyleTags();
-    return { html, styles };
-  } finally {
-    sheet.seal();
-  }
+  const html = renderToString(
+    <StrictMode>
+      <StaticRouter location={url}>
+        <App />
+      </StaticRouter>
+    </StrictMode>
+  );
+  return { html, styles: '' };
 }

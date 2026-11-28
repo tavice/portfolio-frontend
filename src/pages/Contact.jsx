@@ -1,414 +1,161 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub } from 'react-icons/fa';
-import { useTheme } from '../context/ThemeContext';
-import { sendContactEmail } from '../services/api';
+import { useState } from 'react';
+import about from '../data/about.json';
+import SheetLabel from '../components/SheetLabel';
+import { ArrowRight, ArrowUpRight, Download, Mail } from '../components/Icons';
 
-const Container = styled(motion.div)`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 24px;
-  background: ${({ theme }) => theme.colors.background.primary};
-  
-  @media (max-width: 768px) {
-    padding: 40px 20px;
-  }
-`;
+const API_URL = import.meta.env.REACT_APP_RENDER_URL || 'http://localhost:10000';
 
-const Header = styled.div`
-  text-align: center;
-  margin-bottom: 60px;
-  position: relative;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: ${({ theme }) => theme.colors.primary};
-    border-radius: ${({ theme }) => theme.borderRadius.sm};
-  }
-`;
+const EMPTY = { name: '', email: '', subject: '', message: '', website: '' };
 
-const Title = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-  color: ${({ theme }) => theme.colors.text.primary};
-  font-family: ${({ theme }) => theme.fonts.heading};
-`;
+export default function Contact() {
+  const { contact, mainInfo, connect } = about;
+  const [form, setForm] = useState(EMPTY);
+  const [status, setStatus] = useState(null); // { ok: boolean, text: string }
+  const [sending, setSending] = useState(false);
 
-const Subtitle = styled.p`
-  font-size: 1.25rem;
-  color: ${({ theme }) => theme.colors.text.secondary};
-  max-width: 600px;
-  margin: 0 auto;
-  font-family: ${({ theme }) => theme.fonts.body};
-`;
+  const onChange = (e) => setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-const ContentGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-`;
-
-const ContactInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-`;
-
-const ContactCard = styled(motion.div)`
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 24px;
-  background: ${({ theme }) => theme.colors.background.secondary};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  box-shadow: ${({ theme }) => theme.shadows.sm};
-  transition: all ${({ theme }) => theme.transitions.default};
-  
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: ${({ theme }) => theme.shadows.md};
-  }
-`;
-
-const IconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.white};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  font-size: 1.5rem;
-  flex-shrink: 0;
-`;
-
-const ContactDetails = styled.div`
-  h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: ${({ theme }) => theme.colors.text.primary};
-    font-family: ${({ theme }) => theme.fonts.heading};
-  }
-  
-  p, a {
-    font-size: 1rem;
-    color: ${({ theme }) => theme.colors.text.secondary};
-    margin: 0;
-    text-decoration: none;
-    transition: color ${({ theme }) => theme.transitions.default};
-    font-family: ${({ theme }) => theme.fonts.body};
-    
-    &:hover {
-      color: ${({ theme }) => theme.colors.text.highlight};
-    }
-  }
-`;
-
-const SocialLinks = styled.div`
-  display: flex;
-  gap: 16px;
-  margin-top: 8px;
-  
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background: ${({ theme }) => theme.colors.background.hover};
-    color: ${({ theme }) => theme.colors.text.secondary};
-    border-radius: ${({ theme }) => theme.borderRadius.full};
-    font-size: 1.2rem;
-    transition: all ${({ theme }) => theme.transitions.default};
-    
-    &:hover {
-      color: ${({ theme }) => theme.colors.text.highlight};
-      transform: translateY(-2px);
-      box-shadow: ${({ theme }) => theme.shadows.md};
-    }
-  }
-`;
-
-const ContactForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-`;
-
-const FormGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  
-  label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: ${({ theme }) => theme.colors.text.primary};
-    font-family: ${({ theme }) => theme.fonts.body};
-  }
-  
-  input, textarea {
-    padding: 12px 16px;
-    border: 1px solid ${({ theme }) => theme.colors.border};
-    border-radius: ${({ theme }) => theme.borderRadius.md};
-    font-size: 1rem;
-    color: ${({ theme }) => theme.colors.text.primary};
-    background: ${({ theme }) => theme.colors.background.secondary};
-    transition: all ${({ theme }) => theme.transitions.default};
-    font-family: ${({ theme }) => theme.fonts.body};
-    
-    &:focus {
-      outline: none;
-      border-color: ${({ theme }) => theme.colors.primary};
-      box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary}33;
-    }
-  }
-  
-  textarea {
-    min-height: 150px;
-    resize: vertical;
-  }
-`;
-
-const SubmitButton = styled(motion.button)`
-  padding: 14px 28px;
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.white};
-  border: none;
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all ${({ theme }) => theme.transitions.default};
-  align-self: flex-start;
-  box-shadow: ${({ theme }) => theme.shadows.md};
-  font-family: ${({ theme }) => theme.fonts.body};
-  
-  &:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-    box-shadow: ${({ theme }) => theme.shadows.lg};
-  }
-`;
-
-const Message = styled.div`
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  margin-top: 16px;
-  
-  ${({ success, theme }) => success ? `
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-  ` : `
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-  `}
-`;
-
-function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    website: '', // honeypot: hidden from people, filled in by bots
-  });
-  const [status, setStatus] = useState({ type: '', message: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { isDarkMode } = useTheme();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setStatus({ type: '', message: '' });
-
+    setSending(true);
+    setStatus(null);
     try {
-      await sendContactEmail(formData);
-      setStatus({
-        type: 'success',
-        message: 'Thank you for your message! I will get back to you soon.',
+      const res = await fetch(`${API_URL}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(form),
       });
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-        website: '',
-      });
-    } catch (error) {
+      if (!res.ok) {
+        const err = new Error(`HTTP ${res.status}`);
+        err.status = res.status;
+        throw err;
+      }
+      setStatus({ ok: true, text: 'Thanks, your message is on its way. I will get back to you soon.' });
+      setForm(EMPTY);
+    } catch (err) {
       setStatus({
-        type: 'error',
-        message:
-          error?.response?.status === 429
+        ok: false,
+        text:
+          err.status === 429
             ? 'Too many messages from this connection. Please try again in an hour, or email me directly.'
-            : 'Sorry, something went wrong. Please try again later.',
+            : `Something went wrong sending that. You can email me directly at ${contact.email}.`,
       });
     } finally {
-      setIsSubmitting(false);
+      setSending(false);
     }
   };
 
   return (
-    <Container
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className={isDarkMode ? 'dark-mode' : ''}
-    >
-      <Header>
-        <Title>Get in Touch</Title>
-        <Subtitle>Have a question or want to work together? I'd love to hear from you!</Subtitle>
-      </Header>
+    <>
+      <header className="page-head">
+        <div className="wrap">
+          <SheetLabel no="A-400">Contact</SheetLabel>
+          <h1 className="h-display">
+            Let's <em>talk.</em>
+          </h1>
+          <p className="lead">{connect}</p>
+        </div>
+      </header>
 
-      <ContentGrid>
-        <ContactInfo>
-          <ContactCard whileHover={{ y: -4 }}>
-            <IconWrapper>
-              <FaEnvelope />
-            </IconWrapper>
-            <ContactDetails>
-              <h3>Email</h3>
-              <a href="mailto:thomas.avice@gmail.com">thomas.avice@gmail.com</a>
-            </ContactDetails>
-          </ContactCard>
-
-          <ContactCard whileHover={{ y: -4 }}>
-            <IconWrapper>
-              <FaMapMarkerAlt />
-            </IconWrapper>
-            <ContactDetails>
-              <h3>Location</h3>
-              <p>San Francisco Bay Area, CA</p>
-            </ContactDetails>
-          </ContactCard>
-
-          <ContactCard whileHover={{ y: -4 }}>
-            <IconWrapper>
-              <FaPhone />
-            </IconWrapper>
-            <ContactDetails>
-              <h3>Connect</h3>
-              <SocialLinks>
-                <a href="https://github.com/thomasavice" target="_blank" rel="noopener noreferrer">
-                  <FaGithub />
+      <section className="sheet" style={{ paddingTop: 0, borderBottom: 0 }}>
+        <div className="wrap contact-grid" style={{ marginTop: 0 }}>
+          <div>
+            <ul className="direct">
+              <li>
+                <a href={`mailto:${contact.email}`}>
+                  <span className="mono">Email</span>
+                  <span className="val">{contact.email}</span>
+                  <Mail />
                 </a>
-                <a href="https://linkedin.com/in/thomasavice" target="_blank" rel="noopener noreferrer">
-                  <FaLinkedin />
+              </li>
+              <li>
+                <a href={contact.linkedin} target="_blank" rel="noopener noreferrer">
+                  <span className="mono">LinkedIn</span>
+                  <span className="val">in/thomasavice</span>
+                  <ArrowUpRight />
                 </a>
-              </SocialLinks>
-            </ContactDetails>
-          </ContactCard>
-        </ContactInfo>
-
-        <ContactForm onSubmit={handleSubmit}>
-          {/* Honeypot: invisible to people and screen readers, bots fill it in */}
-          <div
-            aria-hidden="true"
-            style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}
-          >
-            <label htmlFor="website">Leave this field empty</label>
-            <input
-              type="text"
-              id="website"
-              name="website"
-              value={formData.website}
-              onChange={handleChange}
-              tabIndex={-1}
-              autoComplete="off"
-            />
+              </li>
+              <li>
+                <a href={contact.github} target="_blank" rel="noopener noreferrer">
+                  <span className="mono">GitHub</span>
+                  <span className="val">tavice</span>
+                  <ArrowUpRight />
+                </a>
+              </li>
+              <li>
+                <a href={mainInfo.resume}>
+                  <span className="mono">Resume</span>
+                  <span className="val">PDF</span>
+                  <Download />
+                </a>
+              </li>
+            </ul>
+            <p className="mono" style={{ color: 'var(--ink-3)', marginTop: 24 }}>
+              Based in {mainInfo.location}
+            </p>
           </div>
 
-          <FormGroup>
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </FormGroup>
+          <form className="form" onSubmit={onSubmit}>
+            <div className="form-head mono">
+              <span>Transmittal</span>
+              <span>To: T. Avice</span>
+            </div>
 
-          <FormGroup>
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </FormGroup>
+            {/* Honeypot: hidden from people and screen readers, bots fill it in */}
+            <div className="hp" aria-hidden="true">
+              <label htmlFor="website">Leave this field empty</label>
+              <input
+                type="text"
+                id="website"
+                name="website"
+                value={form.website}
+                onChange={onChange}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
 
-          <FormGroup>
-            <label htmlFor="subject">Subject</label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              required
-            />
-          </FormGroup>
+            <div className="form-row">
+              <div className="field">
+                <label htmlFor="name">Name</label>
+                <input id="name" name="name" value={form.name} onChange={onChange} autoComplete="name" required />
+              </div>
+              <div className="field">
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={form.email}
+                  onChange={onChange}
+                  autoComplete="email"
+                  required
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="subject">Subject</label>
+              <input id="subject" name="subject" value={form.subject} onChange={onChange} required />
+            </div>
+            <div className="field">
+              <label htmlFor="message">Message</label>
+              <textarea id="message" name="message" value={form.message} onChange={onChange} required />
+            </div>
 
-          <FormGroup>
-            <label htmlFor="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-            />
-          </FormGroup>
+            <div>
+              <button className="btn btn-primary" type="submit" disabled={sending}>
+                {sending ? 'Sending…' : 'Send message'} {!sending && <ArrowRight />}
+              </button>
+            </div>
 
-          <SubmitButton
-            type="submit"
-            disabled={isSubmitting}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isSubmitting ? 'Sending...' : 'Send Message'}
-          </SubmitButton>
-
-          {status.message && (
-            <Message success={status.type === 'success'}>
-              {status.message}
-            </Message>
-          )}
-        </ContactForm>
-      </ContentGrid>
-    </Container>
+            {status && (
+              <p className={`form-status ${status.ok ? 'ok' : 'err'}`} role="status">
+                {status.text}
+              </p>
+            )}
+          </form>
+        </div>
+      </section>
+    </>
   );
 }
-
-export default Contact;

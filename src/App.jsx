@@ -1,46 +1,68 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
-import GlobalStyles from './styles/GlobalStyles';
-import Header from './components/Header';
+import Nav from './components/Nav';
 import Footer from './components/Footer';
-import About from './pages/About';
+import Home from './pages/Home';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
-import ThemeToggle from './components/ThemeToggle';
 import { PAGE_META } from './pageMeta';
 
-// Keeps the tab title and description in sync on client-side navigation.
-// (The pre-rendered HTML already has the right tags for first load.)
-function PageMeta() {
+// Keeps the tab title, description and canonical in sync on client-side
+// navigation, scrolls to the top, and fades sections in as they scroll into
+// view. (The pre-rendered HTML already has the right tags for first load.)
+function RouteEffects() {
   const { pathname } = useLocation();
-  React.useEffect(() => {
+
+  useEffect(() => {
     const meta = PAGE_META[pathname] || PAGE_META['/'];
     document.title = meta.title;
-    const description = document.querySelector('meta[name="description"]');
-    if (description) description.setAttribute('content', meta.description);
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) canonical.setAttribute('href', meta.canonical);
+    document.querySelector('meta[name="description"]')?.setAttribute('content', meta.description);
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', meta.canonical);
+    window.scrollTo(0, 0);
   }, [pathname]);
+
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal:not(.in)');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach((el) => el.classList.add('in'));
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            io.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [pathname]);
+
   return null;
 }
 
-function App() {
+export default function App() {
   return (
-    <ThemeProvider>
-      <GlobalStyles />
-      <PageMeta />
-      <Header />
-      <Routes>
-        <Route path="/" element={<About />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <RouteEffects />
+      <Nav />
+      <main id="main">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<Home />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </main>
       <Footer />
-      <ThemeToggle />
-    </ThemeProvider>
+    </>
   );
 }
-
-export default App;

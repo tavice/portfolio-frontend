@@ -2,188 +2,107 @@
 <html lang="en">
 
 <head>
-  <!-- Preconnect to required origins -->
-  <link rel="preconnect" href="https://www.google-analytics.com" />
-  <link rel="preconnect" href="https://portfolio-backend-en4x.onrender.com" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BG0L2XH25K"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", "G-BG0L2XH25K");
-  </script>
   <meta charset="utf-8" />
-  <link rel="icon" href="/favicon-32x32.png" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#FFFFFF" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <!-- Primary Meta Tags -->
-  <title>Thomas Avice - Construction Project Manager &amp; Builder</title>
-  <meta name="title" content="Thomas Avice - Construction Project Manager &amp; Builder">
+  <!-- Apply the saved theme and mark JS as available before first paint (no flash) -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') d.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Thomas Avice - Construction Project Manager &amp; Software Builder</title>
   <meta name="description"
-    content="Thomas Avice is a construction project manager who builds software: ten years running regulated Bay Area projects, plus tools and AI workflows for RFIs, submittals, cost tracking and Procore." />
-  <meta name="keywords"
-    content="Thomas Avice, construction project manager, construction technology, Procore, AI workflows, software engineer, San Francisco">
-  <meta name="author" content="Thomas Avice">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="English">
-  <meta name="revisit-after" content="7 days">
-  <meta name="generator" content="React">
-
-  <!-- Canonical URL -->
+    content="Construction project manager who builds software and AI workflows for the jobsite: ten years running regulated Bay Area projects, plus tools for RFIs, submittals, cost tracking and Procore." />
+  <meta name="author" content="Thomas Avice" />
+  <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://thomasavice.com/" />
 
+  <meta name="theme-color" content="#f3f0e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#101214" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="/favicon-32x32.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-  <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
   <link rel="manifest" href="/manifest.json" />
 
-  <!-- Load Material Icons font with display=swap -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet" media="print"
-    onload="this.media='all'" />
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" />
 
-  <!--Open Graph Meta Tag-->
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://thomasavice.com/" />
-  <meta property="og:title" content="Thomas Avice - Construction Project Manager &amp; Builder" />
+  <meta property="og:title" content="Thomas Avice - Construction Project Manager &amp; Software Builder" />
   <meta property="og:description"
-    content="Thomas Avice is a construction project manager who builds software: ten years running regulated Bay Area projects, plus tools and AI workflows for RFIs, submittals, cost tracking and Procore." />
-  <meta property="og:image" content="/profile_picture.png" />
-  <meta property="og:site_name" content="Thomas Avice - Portfolio" />
+    content="Construction project manager who builds software and AI workflows for the jobsite: ten years running regulated Bay Area projects, plus tools for RFIs, submittals, cost tracking and Procore." />
+  <meta property="og:image" content="https://thomasavice.com/profile_picture.png" />
+  <meta property="og:site_name" content="Thomas Avice" />
   <meta property="og:locale" content="en_US" />
 
-  <!--Twitter Meta Tag-->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="https://thomasavice.com/" />
-  <meta name="twitter:creator" content="@thomasavice" />
-  <meta name="twitter:title" content="Thomas Avice - Construction Project Manager &amp; Builder" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Thomas Avice - Construction Project Manager &amp; Software Builder" />
   <meta name="twitter:description"
-    content="Thomas Avice is a construction project manager who builds software: ten years running regulated Bay Area projects, plus tools and AI workflows for RFIs, submittals, cost tracking and Procore." />
-  <meta name="twitter:image" content="/profile_picture.png" />
+    content="Construction project manager who builds software and AI workflows for the jobsite." />
+  <meta name="twitter:image" content="https://thomasavice.com/profile_picture.png" />
 
-  <!-- Structured Data - Person -->
+  <!-- Structured data -->
   <script type="application/ld+json">
     {
-      "@context": "http://schema.org",
+      "@context": "https://schema.org",
       "@type": "Person",
       "name": "Thomas Avice",
       "jobTitle": "Construction Project Manager",
+      "description": "Construction project manager who builds software and AI workflows for the jobsite.",
       "url": "https://thomasavice.com/",
-      "image": "https://i.ibb.co/yq4z2zj/120138049.png",
-      "email": "thomasavice.ta@gmail.com",
+      "image": "https://thomasavice.com/profile_picture.png",
+      "email": "mailto:thomasavice.ta@gmail.com",
+      "address": { "@type": "PostalAddress", "addressLocality": "San Francisco", "addressRegion": "CA", "addressCountry": "US" },
+      "alumniOf": { "@type": "CollegeOrUniversity", "name": "University of California, Berkeley" },
+      "hasCredential": { "@type": "EducationalOccupationalCredential", "name": "California General Contractor License (Class B)" },
       "sameAs": [
         "https://www.linkedin.com/in/thomasavice/",
         "https://github.com/tavice"
       ],
       "knowsAbout": [
-        "Web Development",
+        "Construction project management",
+        "Construction technology",
+        "Procore",
+        "RFIs and submittals",
+        "Job-cost tracking",
+        "AI workflow automation",
         "React",
         "Node.js",
-        "Express",
-        "MongoDB",
-        "MySQL",
-        "JavaScript",
-        "TypeScript"
+        "Python"
       ]
     }
   </script>
-
-  <!-- Structured Data - WebSite -->
   <script type="application/ld+json">
     {
-      "@context": "http://schema.org",
+      "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "Thomas Avice Portfolio",
-      "url": "https://thomasavice.com/",
-      "description": "Construction project manager who builds software and AI workflows for the jobsite.",
-      "author": {
-        "@type": "Person",
-        "name": "Thomas Avice"
-      },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://thomasavice.com/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-  </script>
-
-  <!-- Structured Data - Breadcrumb -->
-  <script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "item": {
-            "@id": "https://thomasavice.com/",
-            "name": "Home"
-          }
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "item": {
-            "@id": "https://thomasavice.com/projects",
-            "name": "Projects"
-          }
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "item": {
-            "@id": "https://thomasavice.com/about",
-            "name": "About"
-          }
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "item": {
-            "@id": "https://www.maisonavice.com/",
-            "name": "Maison Avice"
-          }
-        }
-      ]
-    }
-  </script>
-
-  <!-- Structured Data - Organization -->
-  <script type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "Organization",
       "name": "Thomas Avice",
-      "url": "https://thomasavice.com/",
-      "logo": "https://thomasavice.com/logo-ta.png",
-      "sameAs": [
-        "https://www.linkedin.com/in/thomasavice/",
-        "https://github.com/tavice"
-      ],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "email": "thomasavice.ta@gmail.com"
-      }
+      "url": "https://thomasavice.com/"
     }
   </script>
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BG0L2XH25K"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-BG0L2XH25K');
+  </script>
 </head>
 
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
   <script type="module" src="/src/index.jsx"></script>
 </body>
