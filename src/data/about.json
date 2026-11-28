@@ -9,9 +9,18 @@
     },
     "lede": "Construction project manager in San Francisco. I run projects, and I write the software they're missing.",
     "markups": [
-        "Ten years running regulated projects in the Bay Area: schools, a hospital campus and historic renovation. In the field, in the office and in owner meetings.",
-        "Duct hits beam. On a real job that becomes an RFI, maybe a change order, and a thread split across Procore and five inboxes. I build tools that track it and draft the paperwork for a person to review.",
-        "Licensed California general contractor (Class B), OSHA 30, and an M.S. in Civil Engineering & Engineering Project Management from UC Berkeley."
+        {
+            "label": "The classroom: ten years of projects",
+            "text": "Ten years running regulated projects in the Bay Area: schools, a hospital campus and historic renovation. In the field, in the office and in owner meetings."
+        },
+        {
+            "label": "Duct hits beam: the problem I build software for",
+            "text": "Duct hits beam. On a real job that becomes an RFI, maybe a change order, and a thread split across Procore and five inboxes. I build tools that track it and draft the paperwork for a person to review."
+        },
+        {
+            "label": "The foundation: license and education",
+            "text": "Licensed California general contractor (Class B), OSHA 30, and an M.S. in Civil Engineering & Engineering Project Management from UC Berkeley."
+        }
     ],
     "notes": [
         "I've spent ten years on regulated projects in the Bay Area: schools, a hospital campus and historic renovation. I've worked in the field, in the office and in owner meetings.",

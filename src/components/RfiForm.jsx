@@ -35,7 +35,7 @@ export default function RfiForm() {
         err.status = res.status;
         throw err;
       }
-      setStatus({ ok: true, text: `RFI submitted. I'll reply to ${sentTo}.` });
+      setStatus({ ok: true, text: `Thanks. I'll reply to ${sentTo}.` });
       setForm(EMPTY);
     } catch (err) {
       setStatus({
@@ -50,8 +50,20 @@ export default function RfiForm() {
     }
   };
 
+  if (status?.ok) {
+    return (
+      <div className="rfi rfi-done" role="status">
+        <p className="rfi-done-title">RFI submitted</p>
+        <p>{status.text}</p>
+        <button type="button" className="btn btn-ghost" onClick={() => setStatus(null)}>
+          Submit another RFI
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <form className="rfi" onSubmit={onSubmit}>
+    <form className="rfi" onSubmit={onSubmit} aria-describedby="rfi-req">
       {/* Honeypot: hidden from people and screen readers, bots fill it in */}
       <div className="hp" aria-hidden="true">
         <label htmlFor="website">Leave this field empty</label>
@@ -90,6 +102,10 @@ export default function RfiForm() {
         <button className="btn" type="submit" disabled={sending}>
           {sending ? 'Submitting…' : 'Submit RFI'}
         </button>
+        <p className="muted rfi-req" id="rfi-req">
+          All fields are required. Or email{' '}
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>.
+        </p>
         {status && (
           <p className={`rfi-status ${status.ok ? 'ok' : 'err'}`} role="status">
             {status.text}

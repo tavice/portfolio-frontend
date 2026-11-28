@@ -96,7 +96,7 @@ function Duct({ x, y, w, h }) {
   );
 }
 
-export default function BuildingSection() {
+export default function BuildingSection({ active = null, labels = [], onHover, onSelect }) {
   return (
     <svg
       className="drawing"
@@ -106,8 +106,8 @@ export default function BuildingSection() {
     >
       <title id="drawing-title">Building section through a two-story school</title>
       <desc id="drawing-desc">
-        A construction drawing with three red markups: a classroom window, a duct that runs into a
-        beam, and the foundation. Each markup number matches a note below the drawing.
+        A construction drawing with three red markups: a classroom, a duct that runs into a beam,
+        and the foundation. Each markup number matches a note below the drawing.
       </desc>
       <defs>
         <pattern id="earth" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
@@ -188,9 +188,30 @@ export default function BuildingSection() {
       <text className="tx tx-c" transform="translate(88 355) rotate(-90)">{`14'-0"`}</text>
 
       {/* Markups */}
-      <g className="markups">
+      {/* Markups: hover, focus or tap one to highlight its note (and the reverse) */}
+      <g className={`markups${active ? ' has-active' : ''}`}>
         {MARKUPS.map(({ n, cloud, leader, tag }, i) => (
-          <g key={n} className="markup" style={{ '--i': i }}>
+          <g
+            key={n}
+            className={`markup${active === n ? ' is-active' : ''}`}
+            style={{ '--i': i }}
+            role="button"
+            tabIndex={0}
+            aria-label={`Markup ${n}: ${labels[i] ?? ''}`}
+            aria-pressed={active === n}
+            onMouseEnter={() => onHover?.(n)}
+            onMouseLeave={() => onHover?.(null)}
+            onFocus={() => onHover?.(n)}
+            onBlur={() => onHover?.(null)}
+            onClick={() => onSelect?.(n)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSelect?.(n);
+              }
+            }}
+          >
+            <rect className="mk-hit" x={cloud[0] - 12} y={cloud[1] - 12} width={cloud[2] + 24} height={cloud[3] + 24} />
             <path {...P} className="mk" d={cloudPath(...cloud)} />
             <line {...P} className="mk" x1={leader[0]} y1={leader[1]} x2={leader[2]} y2={leader[3]} />
             <rect className="mk-tag" x={tag[0]} y={tag[1]} width="26" height="22" />
