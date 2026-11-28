@@ -15,6 +15,7 @@
   --on-line: #ffffff;
   --duo: #22379b;
   --red-soft: rgba(225, 37, 27, 0.08);
+  --on-red: #ffffff;
 
   --sans: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
   --cond: 'Barlow Condensed', 'Arial Narrow', 'Helvetica Neue', sans-serif;
@@ -32,6 +33,7 @@
   --on-line: #0e2a57;
   --duo: #0e2a57;
   --red-soft: rgba(255, 107, 94, 0.14);
+  --on-red: #0e2a57;
   color-scheme: dark;
 }
 
@@ -47,6 +49,7 @@
     --on-line: #0e2a57;
     --duo: #0e2a57;
     --red-soft: rgba(255, 107, 94, 0.14);
+    --on-red: #0e2a57;
     color-scheme: dark;
   }
 }
@@ -367,7 +370,7 @@ p {
   font-family: var(--cond);
   font-weight: 700;
   font-size: 15px;
-  fill: #ffffff;
+  fill: var(--on-red);
   text-anchor: middle;
 }
 
@@ -449,7 +452,7 @@ p {
   height: 22px;
   margin-top: 2px;
   background: var(--red);
-  color: #ffffff;
+  color: var(--on-red);
   font-family: var(--cond);
   font-weight: 700;
   font-size: 15px;

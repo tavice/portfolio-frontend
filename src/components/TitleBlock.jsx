@@ -36,7 +36,7 @@ export default function TitleBlock({ current }) {
       </div>
 
       <div className="tb-cell tb-photo">
-        <img src={mainInfo.headshot} alt={`Portrait of ${mainInfo.name}`} width="604" height="654" />
+        <img src={mainInfo.headshot} alt={`Portrait of ${mainInfo.name}`} width="480" height="520" />
       </div>
 
       <div className="tb-cell">

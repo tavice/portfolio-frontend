@@ -1,5 +1,5 @@
 {
-  "short_name": "tavice portfolio",
+  "short_name": "Thomas Avice",
   "name": "Thomas Avice",
   "icons": [
     {
@@ -30,6 +30,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#22379b",
+  "background_color": "#f5f7fb"
 }

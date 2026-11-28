@@ -1,18 +1,28 @@
 # Thomas Avice
 
-> Construction project manager who builds software and AI workflows for the jobsite. Based in San Francisco, CA.
+> Construction project manager in San Francisco who builds software and AI workflows for the jobsite.
 
-Ten years running regulated, mission-critical Bay Area construction projects (K-12 schools, healthcare, historic renovation). Licensed California general contractor (Class B), OSHA 30, M.S. Civil Engineering & Engineering Project Management (UC Berkeley). Builds tools for RFIs, submittals, change orders, job-cost tracking, Procore integrations and AI-assisted drafting.
+Ten years running regulated, mission-critical Bay Area construction projects (K-12 schools, a hospital campus, historic renovation), in the field, in the office and in owner meetings. Licensed California general contractor (Class B), OSHA 30, M.S. Civil Engineering & Engineering Project Management (UC Berkeley). Builds tools for RFIs, submittals, change orders, job-cost tracking, Procore integrations and AI-assisted drafting, with a person reviewing every draft.
 
-## Pages
-- [Home / About](https://thomasavice.com/): positioning, tools and tech, background
-- [Projects](https://thomasavice.com/projects): construction-technology projects and demos
-- [Contact](https://thomasavice.com/contact): email contact form
+The site is a single page designed as a construction drawing set: a cover sheet, project details, a project schedule, general notes (background) and a contact form laid out as an RFI (request for information).
+
+## Page
+- [Home](https://thomasavice.com/): everything on one page
+  - [Work](https://thomasavice.com/#details): project details with screenshots and demo links
+  - [Project schedule](https://thomasavice.com/#schedule): every project, including private ones
+  - [Background](https://thomasavice.com/#notes): experience, credentials and tools
+  - [Contact](https://thomasavice.com/#rfi): contact form
 - [Resume (PDF)](https://thomasavice.com/Thomas_Avice_Resume.pdf)
 
-## Demos
-- [Job-Cost Dashboard](https://job-cost-dashboard-nine.vercel.app/): sample-data demo of a PM job-cost dashboard (Procore + email, change orders, RFIs, AI drafts). Source: https://github.com/tavice/job-cost-dashboard
+## Projects
+- [Job-Cost Dashboard](https://job-cost-dashboard-nine.vercel.app/): budget, commitments, forecast, change orders, RFIs and submittals for one job on one screen; Procore and email sync; AI-drafted RFIs and PCOs for review. Fictional sample data. Source: https://github.com/tavice/job-cost-dashboard
+- [Construction Analytics](https://job-status-analyzer-frontend.vercel.app/demo): job-status data turned into completion tracking, trend projections and anomaly detection. Sample data.
+- AI drafting workflows (private): first drafts of RFIs, submittals and PCOs, reviewed by a PM before they go out. Used on live projects.
+- Punch-list and inspection app (private): iOS and Android, grew to about 1,000 users.
+- [Maison Poppy](https://www.maisondepoppy.com/): brand site and shop for a San Francisco interior design and remodeling studio.
+- [MyJobSearch](https://astonishing-cannoli-1faecf.netlify.app/Home): full-stack job board.
 
 ## Elsewhere
 - [LinkedIn](https://www.linkedin.com/in/thomasavice)
 - [GitHub](https://github.com/tavice)
+- Email: thomasavice.ta@gmail.com
